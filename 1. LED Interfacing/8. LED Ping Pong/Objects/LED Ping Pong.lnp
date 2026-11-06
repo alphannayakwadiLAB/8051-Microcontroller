@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\LED Ping Pong.obj" 
+TO ".\Objects\LED Ping Pong" 
+PRINT(".\Listings\LED Ping Pong.m51") CODE( 0X0000-0X0FFF )

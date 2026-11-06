@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\Interrupt Based LED.obj" 
+TO ".\Objects\Interrupt Based LED" 
+PRINT(".\Listings\Interrupt Based LED.m51") CODE( 0X0000-0X0FFF )

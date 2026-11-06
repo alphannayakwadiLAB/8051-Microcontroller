@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\LED Ring Counter.obj" 
+TO ".\Objects\LED Ring Counter" 
+PRINT(".\Listings\LED Ring Counter.m51") CODE( 0X0000-0X0FFF )

@@ -1,0 +1,64 @@
+C51 COMPILER V9.60.7.0   INTERRUPT_BASED_LED                                               11/06/2026 23:59:45 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE INTERRUPT_BASED_LED
+OBJECT MODULE PLACED IN .\Objects\Interrupt Based LED.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Interrupt Based LED.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(
+                    -.\Listings\Interrupt Based LED.lst) TABS(2) OBJECT(.\Objects\Interrupt Based LED.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          sbit LED = P1^0;
+   5          
+   6          unsigned int count = 0;
+   7          
+   8          void timer0_ISR(void) interrupt 1
+   9          {
+  10   1          TH0 = 0x4C;
+  11   1          TL0 = 0x00;
+  12   1      
+  13   1          count++;
+  14   1      
+  15   1          if(count >= 10)
+  16   1          {
+  17   2              LED = !LED;
+  18   2              count = 0;
+  19   2          }
+  20   1      }
+  21          
+  22          void main()
+  23          {
+  24   1          TMOD = 0x01;    // Timer 0, Mode 1
+  25   1      
+  26   1          TH0 = 0x4C;
+  27   1          TL0 = 0x00;
+  28   1      
+  29   1          ET0 = 1;        // Enable Timer 0 interrupt
+  30   1          EA = 1;         // Enable global interrupt
+  31   1      
+  32   1          TR0 = 1;        // Start Timer 0
+  33   1      
+  34   1          LED = 1;        // Initially OFF
+  35   1      
+  36   1          while(1)
+  37   1          {
+  38   2              // Main program does nothing
+  39   2          }
+  40   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     59    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

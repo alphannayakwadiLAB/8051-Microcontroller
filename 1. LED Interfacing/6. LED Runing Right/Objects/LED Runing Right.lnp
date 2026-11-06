@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\LED Runing Right.obj" 
+TO ".\Objects\LED Runing Right" 
+PRINT(".\Listings\LED Runing Right.m51") CODE( 0X0000-0X0FFF )

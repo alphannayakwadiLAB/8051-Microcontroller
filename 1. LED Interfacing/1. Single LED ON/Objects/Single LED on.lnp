@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\SIngle LED ON.obj" 
+TO ".\Objects\Single LED on" 
+PRINT(".\Listings\Single LED on.m51") CODE( 0X0000-0X0FFF )

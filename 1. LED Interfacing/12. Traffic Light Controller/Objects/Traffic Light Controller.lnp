@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\Traffic Light Controller.obj" 
+TO ".\Objects\Traffic Light Controller" 
+PRINT(".\Listings\Traffic Light Controller.m51") CODE( 0X0000-0X0FFF )

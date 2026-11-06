@@ -1,0 +1,50 @@
+C51 COMPILER V9.60.7.0   LED_BINARY_COUNTER                                                11/06/2026 23:36:42 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE LED_BINARY_COUNTER
+OBJECT MODULE PLACED IN .\Objects\LED Binary Counter.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE LED Binary Counter.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\LED Binary Counter.lst) TABS(2) OBJECT(.\Objects\LED Binary Counter.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          void delay()
+   5          {
+   6   1          unsigned int i, j;
+   7   1      
+   8   1          for(i = 0; i < 100; i++)
+   9   1          {
+  10   2              for(j = 0; j < 1275; j++);
+  11   2          }
+  12   1      }
+  13          
+  14          void main()
+  15          {
+  16   1          unsigned char count;
+  17   1      
+  18   1          while(1)
+  19   1          {
+  20   2              for(count = 0; count <= 255; count++)
+  21   2              {
+  22   3                  P1 = ~count;    // Display binary count
+  23   3                  delay();
+  24   3              }
+  25   2          }
+  26   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     47    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
