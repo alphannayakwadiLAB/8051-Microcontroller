@@ -1,0 +1,164 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    11/10/2026  23:37:52  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\multiplex.obj TO .\Objects\multiplex PRINT (.\Listings\mult
+>> iplex.m51) CODE (0X0000-0X0FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\multiplex.obj (MULTIPLEX)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\multiplex (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000AH     UNIT         ?DT?MULTIPLEX
+            IDATA   0012H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     008CH     UNIT         ?C_C51STARTUP
+            CODE    088CH     0031H     UNIT         ?PR?DISPLAY?MULTIPLEX
+            CODE    08BDH     000FH     UNIT         ?PR?DELAY?MULTIPLEX
+            CODE    08CCH     000DH     UNIT         ?C_INITSEG
+            CODE    08D9H     0005H     UNIT         ?PR?MAIN?MULTIPLEX
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\multiplex (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MULTIPLEX
+  +--> ?C_INITSEG
+
+?PR?MAIN?MULTIPLEX
+  +--> ?PR?DISPLAY?MULTIPLEX
+
+?PR?DISPLAY?MULTIPLEX
+  +--> ?PR?DELAY?MULTIPLEX
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\multiplex (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/10/2026  23:37:52  PAGE 2
+
+
+
+  -------         MODULE        ?C_STARTUP
+  C:0800H         SEGMENT       ?C_C51STARTUP
+  I:0012H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0803H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0800H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0800H         LINE#         133
+  C:0802H         LINE#         134
+  C:0803H         LINE#         135
+  C:0804H         LINE#         136
+  C:0806H         LINE#         185
+  C:0809H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        MULTIPLEX
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:08BDH         PUBLIC        delay
+  C:08D9H         PUBLIC        main
+  D:0008H         PUBLIC        seg_code
+  B:00B0H.0       PUBLIC        D1
+  B:00B0H.1       PUBLIC        D2
+  B:00B0H.2       PUBLIC        D3
+  B:00B0H.3       PUBLIC        D4
+  C:088CH         PUBLIC        display
+  -------         PROC          DELAY
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:08BDH         LINE#         22
+  C:08BDH         LINE#         23
+  C:08BDH         LINE#         26
+  C:08CBH         LINE#         27
+  -------         ENDPROC       DELAY
+  -------         PROC          DISPLAY
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/10/2026  23:37:52  PAGE 3
+
+
+  C:088CH         LINE#         29
+  C:088CH         LINE#         30
+  C:088CH         LINE#         32
+  C:088EH         LINE#         33
+  C:0890H         LINE#         34
+  C:0892H         LINE#         35
+  C:0894H         LINE#         37
+  C:0897H         LINE#         38
+  C:0899H         LINE#         39
+  C:089CH         LINE#         40
+  C:089EH         LINE#         43
+  C:08A1H         LINE#         44
+  C:08A3H         LINE#         45
+  C:08A6H         LINE#         46
+  C:08A8H         LINE#         49
+  C:08ABH         LINE#         50
+  C:08ADH         LINE#         51
+  C:08B0H         LINE#         52
+  C:08B2H         LINE#         55
+  C:08B5H         LINE#         56
+  C:08B7H         LINE#         57
+  C:08BAH         LINE#         58
+  C:08BCH         LINE#         59
+  -------         ENDPROC       DISPLAY
+  -------         PROC          MAIN
+  C:08D9H         LINE#         61
+  C:08D9H         LINE#         62
+  C:08D9H         LINE#         63
+  C:08D9H         LINE#         64
+  C:08D9H         LINE#         65
+  C:08DCH         LINE#         66
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MULTIPLEX
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0060H BYTE ( 4%) *
+******************************************************************************
+
+Program Size: data=19.0 xdata=0 code=225
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

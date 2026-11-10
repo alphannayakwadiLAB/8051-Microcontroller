@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\even.obj" 
+TO ".\Objects\even" 
+PRINT(".\Listings\even.m51") CODE( 0X0000-0X0FFF )

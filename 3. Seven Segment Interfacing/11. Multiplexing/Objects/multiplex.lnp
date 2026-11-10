@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\multiplex.obj" 
+TO ".\Objects\multiplex" 
+PRINT(".\Listings\multiplex.m51") CODE( 0X0000-0X0FFF )

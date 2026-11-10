@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\three.obj" 
+TO ".\Objects\three digit" 
+PRINT(".\Listings\three digit.m51") CODE( 0X0000-0X0FFF )

@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\odd.obj" 
+TO ".\Objects\odd" 
+PRINT(".\Listings\odd.m51") CODE( 0X0000-0X0FFF )

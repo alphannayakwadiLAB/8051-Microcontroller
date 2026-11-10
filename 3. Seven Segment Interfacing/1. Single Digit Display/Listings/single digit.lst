@@ -1,0 +1,35 @@
+C51 COMPILER V9.60.7.0   SINGLE_DIGIT                                                      11/10/2026 20:30:19 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE SINGLE_DIGIT
+OBJECT MODULE PLACED IN .\Objects\single digit.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE single digit.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listi
+                    -ngs\single digit.lst) TABS(2) OBJECT(.\Objects\single digit.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          void main()
+   5          {
+   6   1          P2 = 0x6F;   // Display digit 9 (Common Cathode)
+   7   1      
+   8   1          while(1)
+   9   1          {
+  10   2          }
+  11   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =      5    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
