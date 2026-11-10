@@ -1,0 +1,46 @@
+C51 COMPILER V9.60.7.0   LED_RUNING_RIGHT                                                  11/06/2026 23:22:09 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE LED_RUNING_RIGHT
+OBJECT MODULE PLACED IN .\Objects\LED Runing Right.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE LED Runing Right.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\L
+                    -istings\LED Runing Right.lst) TABS(2) OBJECT(.\Objects\LED Runing Right.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          void delay()
+   4          {
+   5   1          unsigned int i;
+   6   1      
+   7   1          for(i = 0; i < 1000; i++);
+   8   1      }
+   9          
+  10          void main()
+  11          {
+  12   1          signed char i;
+  13   1      
+  14   1          while(1)
+  15   1          {
+  16   2              for(i = 7; i >= 0; i--)
+  17   2              {
+  18   3                  P1 = ~(1 << i);  // LED ON
+  19   3                  delay();
+  20   3              }
+  21   2          }
+  22   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     45    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

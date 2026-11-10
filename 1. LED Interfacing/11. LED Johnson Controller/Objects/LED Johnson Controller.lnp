@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\LED Johnson Controller.obj" 
+TO ".\Objects\LED Johnson Controller" 
+PRINT(".\Listings\LED Johnson Controller.m51") CODE( 0X0000-0X0FFF )

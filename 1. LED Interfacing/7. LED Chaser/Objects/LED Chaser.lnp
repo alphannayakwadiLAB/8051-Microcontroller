@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\LED Chaser.obj" 
+TO ".\Objects\LED Chaser" 
+PRINT(".\Listings\LED Chaser.m51") CODE( 0X0000-0X0FFF )

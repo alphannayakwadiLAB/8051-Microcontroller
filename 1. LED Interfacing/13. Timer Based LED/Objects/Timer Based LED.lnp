@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\Timer Based LED.obj" 
+TO ".\Objects\Timer Based LED" 
+PRINT(".\Listings\Timer Based LED.m51") CODE( 0X0000-0X0FFF )
