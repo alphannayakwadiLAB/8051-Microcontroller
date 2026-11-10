@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\switch LED Runing.obj" 
+TO ".\Objects\switch led runing" 
+PRINT(".\Listings\switch led runing.m51") CODE( 0X0000-0X0FFF )

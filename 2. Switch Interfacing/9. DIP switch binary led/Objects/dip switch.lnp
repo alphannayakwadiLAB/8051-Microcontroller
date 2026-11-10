@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\dip switch.obj" 
+TO ".\Objects\dip switch" 
+PRINT(".\Listings\dip switch.m51") CODE( 0X0000-0X0FFF )

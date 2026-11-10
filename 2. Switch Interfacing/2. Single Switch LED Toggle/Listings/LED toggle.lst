@@ -1,0 +1,59 @@
+C51 COMPILER V9.60.7.0   LED_TOGGLE                                                        11/09/2026 22:39:57 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE LED_TOGGLE
+OBJECT MODULE PLACED IN .\Objects\LED toggle.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE LED toggle.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\LED toggle.lst) TABS(2) OBJECT(.\Objects\LED toggle.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          sbit SW = P1^0;
+   4          sbit LED = P2^0;
+   5          
+   6          void delay()
+   7          {
+   8   1          unsigned int i;
+   9   1          for(i = 0; i < 3000; i++);
+  10   1      }
+  11          
+  12          void main()
+  13          {
+  14   1          bit led_state = 0;
+  15   1      
+  16   1          SW = 1;
+  17   1          LED = 0;
+  18   1      
+  19   1          while(1)
+  20   1          {
+  21   2              if(SW == 0)
+  22   2              {
+  23   3                  delay();          // Debouncing
+  24   3      
+  25   3                  if(SW == 0)
+  26   3                  {
+  27   4                      led_state = !led_state;
+  28   4                      LED = led_state;
+  29   4      
+  30   4                      while(SW == 0);  // Wait for release
+  31   4                      delay();
+  32   4                  }
+  33   3              }
+  34   2          }
+  35   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     44    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

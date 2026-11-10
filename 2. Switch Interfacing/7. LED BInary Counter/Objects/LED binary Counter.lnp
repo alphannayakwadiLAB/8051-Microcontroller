@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\Binary Counter.obj" 
+TO ".\Objects\LED binary Counter" 
+PRINT(".\Listings\LED binary Counter.m51") CODE( 0X0000-0X0FFF )

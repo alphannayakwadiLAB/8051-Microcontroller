@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\LED toggle.obj" 
+TO ".\Objects\LED toggle" 
+PRINT(".\Listings\LED toggle.m51") CODE( 0X0000-0X0FFF )

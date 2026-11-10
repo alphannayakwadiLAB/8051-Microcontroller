@@ -1,0 +1,175 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    11/10/2026  00:04:16  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\pattern selection.obj TO .\Objects\pattern selection PRINT 
+>> (.\Listings\pattern selection.m51) CODE (0X0000-0X0FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\pattern selection.obj (PATTERN_SELECTION)
+
+
+LINK MAP OF MODULE:  .\Objects\pattern selection (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     0074H     UNIT         ?PR?MAIN?PATTERN_SELECTION
+            CODE    0874H     001DH     UNIT         ?PR?DELAY?PATTERN_SELECTION
+            CODE    0891H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\pattern selection (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?PATTERN_SELECTION
+
+?PR?MAIN?PATTERN_SELECTION
+  +--> ?PR?DELAY?PATTERN_SELECTION
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\pattern selection (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:0891H         SEGMENT       ?C_C51STARTUP
+  I:0008H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/10/2026  00:04:16  PAGE 2
+
+
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0894H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0891H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0891H         LINE#         133
+  C:0893H         LINE#         134
+  C:0894H         LINE#         135
+  C:0895H         LINE#         136
+  C:0897H         LINE#         185
+  C:089AH         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        PATTERN_SELECTION
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  C:0874H         PUBLIC        delay
+  C:0800H         PUBLIC        main
+  B:0090H.0       PUBLIC        SW1
+  B:0090H.1       PUBLIC        SW2
+  B:0090H.2       PUBLIC        SW3
+  B:0090H.3       PUBLIC        SW4
+  -------         PROC          DELAY
+  -------         DO            
+  D:0006H         SYMBOL        i
+  D:0004H         SYMBOL        j
+  -------         ENDDO         
+  C:0874H         LINE#         9
+  C:0874H         LINE#         10
+  C:0874H         LINE#         13
+  C:0877H         LINE#         14
+  C:0877H         LINE#         15
+  C:0885H         LINE#         16
+  C:0890H         LINE#         17
+  -------         ENDPROC       DELAY
+  -------         PROC          MAIN
+  -------         DO            
+  D:0003H         SYMBOL        i
+  D:0002H         SYMBOL        count
+  -------         ENDDO         
+  C:0800H         LINE#         19
+  C:0800H         LINE#         20
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/10/2026  00:04:16  PAGE 3
+
+
+  C:0800H         LINE#         23
+  C:0803H         LINE#         24
+  C:0806H         LINE#         26
+  C:0806H         LINE#         27
+  C:0806H         LINE#         28
+  C:0809H         LINE#         29
+  C:0809H         LINE#         30
+  C:0811H         LINE#         31
+  C:0811H         LINE#         32
+  C:0814H         LINE#         34
+  C:0821H         LINE#         35
+  C:0824H         LINE#         36
+  C:0827H         LINE#         37
+  C:0827H         LINE#         39
+  C:082AH         LINE#         40
+  C:082AH         LINE#         41
+  C:0832H         LINE#         42
+  C:0832H         LINE#         43
+  C:0835H         LINE#         45
+  C:0842H         LINE#         46
+  C:0845H         LINE#         47
+  C:0848H         LINE#         48
+  C:0848H         LINE#         50
+  C:084BH         LINE#         51
+  C:084BH         LINE#         52
+  C:084EH         LINE#         53
+  C:0851H         LINE#         55
+  C:0854H         LINE#         56
+  C:0857H         LINE#         57
+  C:0859H         LINE#         59
+  C:085CH         LINE#         60
+  C:085CH         LINE#         61
+  C:0864H         LINE#         62
+  C:0864H         LINE#         63
+  C:0867H         LINE#         65
+  C:0869H         LINE#         66
+  C:086CH         LINE#         67
+  C:086FH         LINE#         68
+  C:086FH         LINE#         71
+  C:086FH         LINE#         72
+  C:0872H         LINE#         73
+  C:0872H         LINE#         74
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        PATTERN_SELECTION
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 00A0H BYTE ( 7%) *
+******************************************************************************
+
+Program Size: data=9.0 xdata=0 code=160
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

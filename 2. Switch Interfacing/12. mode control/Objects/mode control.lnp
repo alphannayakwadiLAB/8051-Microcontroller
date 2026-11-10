@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\mode control.obj" 
+TO ".\Objects\mode control" 
+PRINT(".\Listings\mode control.m51") CODE( 0X0000-0X0FFF )

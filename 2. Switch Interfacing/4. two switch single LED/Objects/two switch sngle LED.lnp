@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\two switch single led.obj" 
+TO ".\Objects\two switch sngle LED" 
+PRINT(".\Listings\two switch sngle LED.m51") CODE( 0X0000-0X0FFF )

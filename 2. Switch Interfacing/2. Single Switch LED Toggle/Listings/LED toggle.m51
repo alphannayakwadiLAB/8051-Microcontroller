@@ -1,0 +1,146 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    11/09/2026  22:39:57  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\LED toggle.obj TO .\Objects\LED toggle PRINT (.\Listings\LE
+>> D toggle.m51) CODE (0X0000-0X0FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\LED toggle.obj (LED_TOGGLE)
+
+
+LINK MAP OF MODULE:  .\Objects\LED toggle (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+                    0008H     0018H                  *** GAP ***
+            BIT     0020H.0   0000H.1   UNIT         _BIT_GROUP_
+                    0020H.1   0000H.7                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     001DH     UNIT         ?PR?MAIN?LED_TOGGLE
+            CODE    081DH     000FH     UNIT         ?PR?DELAY?LED_TOGGLE
+            CODE    082CH     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\LED toggle (?C_STARTUP)
+
+
+SEGMENT                           BIT_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?LED_TOGGLE
+
+?PR?MAIN?LED_TOGGLE            0020H.0  0000H.1
+  +--> ?PR?DELAY?LED_TOGGLE
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\LED toggle (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:082CH         SEGMENT       ?C_C51STARTUP
+  I:0021H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/09/2026  22:39:57  PAGE 2
+
+
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:082FH         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:082CH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:082CH         LINE#         133
+  C:082EH         LINE#         134
+  C:082FH         LINE#         135
+  C:0830H         LINE#         136
+  C:0832H         LINE#         185
+  C:0835H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        LED_TOGGLE
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  C:081DH         PUBLIC        delay
+  C:0800H         PUBLIC        main
+  B:0090H.0       PUBLIC        SW
+  B:00A0H.0       PUBLIC        LED
+  -------         PROC          DELAY
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:081DH         LINE#         6
+  C:081DH         LINE#         7
+  C:081DH         LINE#         9
+  C:082BH         LINE#         10
+  -------         ENDPROC       DELAY
+  -------         PROC          MAIN
+  -------         DO            
+  B:0020H.0       SYMBOL        led_state
+  -------         ENDDO         
+  C:0800H         LINE#         12
+  C:0800H         LINE#         13
+  C:0800H         LINE#         14
+  C:0802H         LINE#         16
+  C:0804H         LINE#         17
+  C:0806H         LINE#         19
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/09/2026  22:39:57  PAGE 3
+
+
+  C:0806H         LINE#         20
+  C:0806H         LINE#         21
+  C:0809H         LINE#         22
+  C:0809H         LINE#         23
+  C:080CH         LINE#         25
+  C:080FH         LINE#         26
+  C:080FH         LINE#         27
+  C:0811H         LINE#         28
+  C:0815H         LINE#         30
+  C:0818H         LINE#         31
+  C:081BH         LINE#         32
+  C:081BH         LINE#         33
+  C:081BH         LINE#         34
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        LED_TOGGLE
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 003BH BYTE ( 2%) *
+******************************************************************************
+
+Program Size: data=9.1 xdata=0 code=59
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

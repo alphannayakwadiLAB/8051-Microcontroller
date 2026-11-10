@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\Sinle Switch.obj" 
+TO ".\Objects\Single Swich" 
+PRINT(".\Listings\Single Swich.m51") CODE( 0X0000-0X0FFF )

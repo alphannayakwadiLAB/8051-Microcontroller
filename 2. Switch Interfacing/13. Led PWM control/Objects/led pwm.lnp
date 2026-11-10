@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\pwm.obj" 
+TO ".\Objects\led pwm" 
+PRINT(".\Listings\led pwm.m51") CODE( 0X0000-0X0FFF )
