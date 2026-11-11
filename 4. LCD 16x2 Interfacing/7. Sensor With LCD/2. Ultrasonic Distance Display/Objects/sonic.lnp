@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\sonic.obj" 
+TO ".\Objects\sonic" 
+PRINT(".\Listings\sonic.m51") CODE( 0X0000-0X0FFF )

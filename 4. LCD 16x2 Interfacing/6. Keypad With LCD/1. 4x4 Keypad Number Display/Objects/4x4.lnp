@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\4x4.obj" 
+TO ".\Objects\4x4" 
+PRINT(".\Listings\4x4.m51") CODE( 0X0000-0X0FFF )

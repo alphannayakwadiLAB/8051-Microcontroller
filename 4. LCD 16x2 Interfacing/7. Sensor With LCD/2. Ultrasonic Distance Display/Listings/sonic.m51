@@ -1,0 +1,348 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    11/11/2026  22:55:24  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\sonic.obj TO .\Objects\sonic PRINT (.\Listings\sonic.m51) C
+>> ODE (0X0000-0X0FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\sonic.obj (SONIC)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?CLDPTR)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?UIDIV)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?SLCMP)
+
+
+LINK MAP OF MODULE:  .\Objects\sonic (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0004H     UNIT         ?DT?SONIC
+            DATA    000CH     0003H     UNIT         _DATA_GROUP_
+            IDATA   000FH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     0084H     UNIT         ?C?LIB_CODE
+            CODE    0884H     0059H     UNIT         ?PR?MEASURE_DISTANCE?SONIC
+            CODE    08DDH     004BH     UNIT         ?PR?MAIN?SONIC
+            CODE    0928H     003DH     UNIT         ?PR?_LCD_NUMBER?SONIC
+            CODE    0965H     0025H     UNIT         ?PR?_LCD_STRING?SONIC
+            CODE    098AH     0023H     UNIT         ?CO?SONIC
+            CODE    09ADH     0020H     UNIT         ?PR?_DELAY_MS?SONIC
+            CODE    09CDH     0014H     UNIT         ?PR?LCD_INIT?SONIC
+            CODE    09E1H     0013H     UNIT         ?PR?ULTRASONIC_TRIGGER?SONIC
+            CODE    09F4H     0010H     UNIT         ?PR?_LCD_CMD?SONIC
+            CODE    0A04H     0010H     UNIT         ?PR?_LCD_DATA?SONIC
+            CODE    0A14H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0A20H     000CH     UNIT         ?PR?LCD_ENABLE?SONIC
+            CODE    0A2CH     0004H     UNIT         ?PR?TIMER_INIT?SONIC
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\sonic (?C_STARTUP)
+
+
+SEGMENT                                DATA_GROUP 
+  +--> CALLED SEGMENT                START    LENGTH
+----------------------------------------------------
+?C_C51STARTUP                        -----    -----
+  +--> ?PR?MAIN?SONIC
+
+?PR?MAIN?SONIC                       -----    -----
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/11/2026  22:55:24  PAGE 2
+
+
+  +--> ?PR?LCD_INIT?SONIC
+  +--> ?PR?TIMER_INIT?SONIC
+  +--> ?PR?MEASURE_DISTANCE?SONIC
+  +--> ?PR?_LCD_CMD?SONIC
+  +--> ?CO?SONIC
+  +--> ?PR?_LCD_STRING?SONIC
+  +--> ?PR?_LCD_NUMBER?SONIC
+  +--> ?PR?_DELAY_MS?SONIC
+
+?PR?LCD_INIT?SONIC                   -----    -----
+  +--> ?PR?_LCD_CMD?SONIC
+
+?PR?_LCD_CMD?SONIC                   -----    -----
+  +--> ?PR?LCD_ENABLE?SONIC
+  +--> ?PR?_DELAY_MS?SONIC
+
+?PR?LCD_ENABLE?SONIC                 -----    -----
+  +--> ?PR?_DELAY_MS?SONIC
+
+?PR?MEASURE_DISTANCE?SONIC           -----    -----
+  +--> ?PR?ULTRASONIC_TRIGGER?SONIC
+
+?PR?ULTRASONIC_TRIGGER?SONIC         -----    -----
+  +--> ?PR?_DELAY_MS?SONIC
+
+?PR?_LCD_STRING?SONIC                000CH    0003H
+  +--> ?PR?_LCD_DATA?SONIC
+
+?PR?_LCD_DATA?SONIC                  -----    -----
+  +--> ?PR?LCD_ENABLE?SONIC
+  +--> ?PR?_DELAY_MS?SONIC
+
+?PR?_LCD_NUMBER?SONIC                000CH    0002H
+  +--> ?PR?_LCD_DATA?SONIC
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\sonic (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:0A14H         SEGMENT       ?C_C51STARTUP
+  I:000FH         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0A17H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/11/2026  22:55:24  PAGE 3
+
+
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0A14H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0A14H         LINE#         133
+  C:0A16H         LINE#         134
+  C:0A17H         LINE#         135
+  C:0A18H         LINE#         136
+  C:0A1AH         LINE#         185
+  C:0A1DH         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        SONIC
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0A20H         PUBLIC        lcd_enable
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00B0H.2       PUBLIC        EN
+  B:00A0H.1       PUBLIC        ECHO
+  C:0928H         PUBLIC        _lcd_number
+  C:09E1H         PUBLIC        ultrasonic_trigger
+  B:00B0H.0       PUBLIC        RS
+  C:08DDH         PUBLIC        main
+  C:0884H         PUBLIC        measure_distance
+  B:00B0H.1       PUBLIC        RW
+  D:0008H         PUBLIC        count
+  C:0965H         PUBLIC        _lcd_string
+  C:0A04H         PUBLIC        _lcd_data
+  D:0089H         PUBLIC        TMOD
+  B:00A0H.0       PUBLIC        TRIG
+  C:0A2CH         PUBLIC        timer_init
+  C:09F4H         PUBLIC        _lcd_cmd
+  B:0088H.5       PUBLIC        TF0
+  C:09CDH         PUBLIC        lcd_init
+  D:008CH         PUBLIC        TH0
+  D:000AH         PUBLIC        distance
+  D:008AH         PUBLIC        TL0
+  C:09ADH         PUBLIC        _delay_ms
+  B:0088H.4       PUBLIC        TR0
+  -------         PROC          _DELAY_MS
+  D:0006H         SYMBOL        ms
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:09ADH         LINE#         20
+  C:09ADH         LINE#         21
+  C:09ADH         LINE#         24
+  C:09B7H         LINE#         25
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/11/2026  22:55:24  PAGE 4
+
+
+  C:09B7H         LINE#         26
+  C:09C5H         LINE#         27
+  C:09CCH         LINE#         28
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          LCD_ENABLE
+  C:0A20H         LINE#         31
+  C:0A20H         LINE#         32
+  C:0A20H         LINE#         33
+  C:0A22H         LINE#         34
+  C:0A29H         LINE#         35
+  C:0A2BH         LINE#         36
+  -------         ENDPROC       LCD_ENABLE
+  -------         PROC          _LCD_CMD
+  D:0007H         SYMBOL        cmd
+  C:09F4H         LINE#         39
+  C:09F4H         LINE#         40
+  C:09F4H         LINE#         41
+  C:09F6H         LINE#         42
+  C:09F8H         LINE#         43
+  C:09FAH         LINE#         45
+  C:09FDH         LINE#         46
+  -------         ENDPROC       _LCD_CMD
+  -------         PROC          _LCD_DATA
+  D:0007H         SYMBOL        dat
+  C:0A04H         LINE#         50
+  C:0A04H         LINE#         51
+  C:0A04H         LINE#         52
+  C:0A06H         LINE#         53
+  C:0A08H         LINE#         54
+  C:0A0AH         LINE#         56
+  C:0A0DH         LINE#         57
+  -------         ENDPROC       _LCD_DATA
+  -------         PROC          _LCD_STRING
+  D:000CH         SYMBOL        str
+  C:0965H         LINE#         61
+  C:096BH         LINE#         62
+  C:096BH         LINE#         63
+  C:0976H         LINE#         64
+  C:0976H         LINE#         65
+  C:0987H         LINE#         66
+  C:0989H         LINE#         67
+  -------         ENDPROC       _LCD_STRING
+  -------         PROC          LCD_INIT
+  C:09CDH         LINE#         70
+  C:09CDH         LINE#         71
+  C:09CDH         LINE#         72
+  C:09D2H         LINE#         73
+  C:09D7H         LINE#         74
+  C:09DCH         LINE#         75
+  -------         ENDPROC       LCD_INIT
+  -------         PROC          _LCD_NUMBER
+  D:000CH         SYMBOL        num
+  C:0928H         LINE#         79
+  C:092CH         LINE#         80
+  C:092CH         LINE#         81
+  C:093AH         LINE#         82
+  C:0953H         LINE#         83
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/11/2026  22:55:24  PAGE 5
+
+
+  -------         ENDPROC       _LCD_NUMBER
+  -------         PROC          TIMER_INIT
+  C:0A2CH         LINE#         87
+  C:0A2CH         LINE#         88
+  C:0A2CH         LINE#         89
+  C:0A2FH         LINE#         90
+  -------         ENDPROC       TIMER_INIT
+  -------         PROC          ULTRASONIC_TRIGGER
+  C:09E1H         LINE#         93
+  C:09E1H         LINE#         94
+  C:09E1H         LINE#         95
+  C:09E3H         LINE#         96
+  C:09EAH         LINE#         98
+  C:09ECH         LINE#         100
+  C:09EDH         LINE#         101
+  C:09EEH         LINE#         102
+  C:09EFH         LINE#         103
+  C:09F0H         LINE#         104
+  C:09F1H         LINE#         106
+  C:09F3H         LINE#         107
+  -------         ENDPROC       ULTRASONIC_TRIGGER
+  -------         PROC          MEASURE_DISTANCE
+  -------         DO            
+  D:0082H         SYMBOL        timeout
+  -------         ENDDO         
+  C:0884H         LINE#         110
+  C:0884H         LINE#         111
+  C:0884H         LINE#         114
+  C:0887H         LINE#         117
+  C:0889H         LINE#         118
+  C:088CH         LINE#         119
+  C:088EH         LINE#         120
+  C:0890H         LINE#         122
+  C:0894H         LINE#         124
+  C:0897H         LINE#         125
+  C:0897H         LINE#         126
+  C:0898H         LINE#         128
+  C:08ABH         LINE#         129
+  C:08ADH         LINE#         130
+  C:08ADH         LINE#         133
+  C:08B0H         LINE#         134
+  C:08B2H         LINE#         135
+  C:08B4H         LINE#         136
+  C:08B6H         LINE#         139
+  C:08B9H         LINE#         140
+  C:08B9H         LINE#         141
+  C:08BCH         LINE#         142
+  C:08BCH         LINE#         143
+  C:08BEH         LINE#         144
+  C:08C2H         LINE#         145
+  C:08C2H         LINE#         146
+  C:08C2H         LINE#         148
+  C:08C4H         LINE#         150
+  C:08CEH         LINE#         153
+  C:08DCH         LINE#         155
+  C:08DCH         LINE#         156
+  -------         ENDPROC       MEASURE_DISTANCE
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/11/2026  22:55:24  PAGE 6
+
+
+  -------         PROC          MAIN
+  C:08DDH         LINE#         159
+  C:08DDH         LINE#         160
+  C:08DDH         LINE#         161
+  C:08E0H         LINE#         162
+  C:08E3H         LINE#         164
+  C:08E5H         LINE#         165
+  C:08E7H         LINE#         167
+  C:08E7H         LINE#         168
+  C:08E7H         LINE#         169
+  C:08EEH         LINE#         171
+  C:08F3H         LINE#         172
+  C:08FCH         LINE#         174
+  C:0901H         LINE#         176
+  C:0907H         LINE#         177
+  C:0907H         LINE#         178
+  C:090DH         LINE#         179
+  C:090FH         LINE#         181
+  C:090FH         LINE#         182
+  C:0916H         LINE#         183
+  C:091FH         LINE#         184
+  C:091FH         LINE#         186
+  C:0926H         LINE#         187
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        SONIC
+
+  -------         MODULE        ?C?CLDPTR
+  C:0800H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?UIDIV
+  C:0819H         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+  -------         MODULE        ?C?SLCMP
+  C:086EH         PUBLIC        ?C?SLCMP
+  -------         ENDMOD        ?C?SLCMP
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 01AFH BYTE (21%) *
+******************************************************************************
+
+Program Size: data=16.0 xdata=0 code=563
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

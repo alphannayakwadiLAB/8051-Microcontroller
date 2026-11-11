@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\digital.obj" 
+TO ".\Objects\digital" 
+PRINT(".\Listings\digital.m51") CODE( 0X0000-0X0FFF )

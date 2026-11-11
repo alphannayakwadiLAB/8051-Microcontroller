@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\initialization.obj" 
+TO ".\Objects\initialization" 
+PRINT(".\Listings\initialization.m51") CODE( 0X0000-0X0FFF )

@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\password.obj" 
+TO ".\Objects\keypad" 
+PRINT(".\Listings\keypad.m51") CODE( 0X0000-0X0FFF )

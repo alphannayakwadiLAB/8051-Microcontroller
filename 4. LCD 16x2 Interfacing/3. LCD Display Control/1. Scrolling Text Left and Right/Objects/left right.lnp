@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\scroll.obj" 
+TO ".\Objects\left right" 
+PRINT(".\Listings\left right.m51") CODE( 0X0000-0X0FFF )
