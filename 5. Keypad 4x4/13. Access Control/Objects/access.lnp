@@ -1,4 +1,0 @@
-".\Objects\STARTUP.obj",
-".\Objects\access.obj" 
-TO ".\Objects\access" 
-PRINT(".\Listings\access.m51") CODE( 0X0000-0X0FFF )

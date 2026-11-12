@@ -1,4 +1,0 @@
-".\Objects\STARTUP.obj",
-".\Objects\menu.obj" 
-TO ".\Objects\menu" 
-PRINT(".\Listings\menu.m51") CODE( 0X0000-0X0FFF )
