@@ -1,0 +1,250 @@
+C51 COMPILER V9.60.7.0   ACCESS                                                            11/12/2026 23:12:53 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE ACCESS
+OBJECT MODULE PLACED IN .\Objects\access.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE access.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\ac
+                    -cess.lst) TABS(2) OBJECT(.\Objects\access.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          #define KEYPAD P3
+   5          #define LCD P1
+   6          
+   7          sbit RS = P2^0;
+   8          sbit EN = P2^1;
+   9          sbit RELAY = P2^2;
+  10          sbit BUZZER = P2^3;
+  11          
+  12          unsigned char keymap[4][4] = {
+  13              {'1','2','3','A'},
+  14              {'4','5','6','B'},
+  15              {'7','8','9','C'},
+  16              {'*','0','#','D'}
+  17          };
+  18          
+  19          unsigned char password[] = "1234";
+  20          unsigned char entered[5];
+  21          
+  22          unsigned char key;
+  23          unsigned char i;
+  24          unsigned char correct;
+  25          unsigned char attempts = 0;
+  26          
+  27          void delay(unsigned int t)
+  28          {
+  29   1          unsigned int x, y;
+  30   1      
+  31   1          for(x = 0; x < t; x++)
+  32   1              for(y = 0; y < 1275; y++);
+  33   1      }
+  34          
+  35          void lcd_cmd(unsigned char cmd)
+  36          {
+  37   1          LCD = cmd;
+  38   1          RS = 0;
+  39   1          EN = 1;
+  40   1          delay(2);
+  41   1          EN = 0;
+  42   1      }
+  43          
+  44          void lcd_data(unsigned char dat)
+  45          {
+  46   1          LCD = dat;
+  47   1          RS = 1;
+  48   1          EN = 1;
+  49   1          delay(2);
+  50   1          EN = 0;
+  51   1      }
+  52          
+  53          void lcd_string(unsigned char *str)
+  54          {
+C51 COMPILER V9.60.7.0   ACCESS                                                            11/12/2026 23:12:53 PAGE 2   
+
+  55   1          while(*str)
+  56   1              lcd_data(*str++);
+  57   1      }
+  58          
+  59          void lcd_init()
+  60          {
+  61   1          lcd_cmd(0x38);
+  62   1          lcd_cmd(0x0C);
+  63   1          lcd_cmd(0x06);
+  64   1          lcd_cmd(0x01);
+  65   1          delay(5);
+  66   1      }
+  67          
+  68          unsigned char keypad_scan(void)
+  69          {
+  70   1          unsigned char row, col;
+  71   1      
+  72   1          while(1)
+  73   1          {
+  74   2              KEYPAD = 0xF0;
+  75   2      
+  76   2              if((KEYPAD & 0xF0) != 0xF0)
+  77   2              {
+  78   3                  delay(20);
+  79   3      
+  80   3                  if((KEYPAD & 0xF0) != 0xF0)
+  81   3                  {
+  82   4                      for(row = 0; row < 4; row++)
+  83   4                      {
+  84   5                          KEYPAD = 0xFF;
+  85   5                          KEYPAD = 0xF0 | (0x0F & ~(1 << row));
+  86   5      
+  87   5                          for(col = 0; col < 4; col++)
+  88   5                          {
+  89   6                              if((KEYPAD & (0x10 << col)) == 0)
+  90   6                              {
+  91   7                                  delay(20);
+  92   7      
+  93   7                                  if((KEYPAD & (0x10 << col)) == 0)
+  94   7                                  {
+  95   8                                      KEYPAD = 0xF0;
+  96   8      
+  97   8                                      while((KEYPAD & 0xF0) != 0xF0);
+  98   8      
+  99   8                                      delay(20);
+ 100   8                                      return keymap[row][col];
+ 101   8                                  }
+ 102   7                              }
+ 103   6                          }
+ 104   5                      }
+ 105   4                  }
+ 106   3              }
+ 107   2          }
+ 108   1      }
+ 109          
+ 110          void main()
+ 111          {
+ 112   1          RELAY = 0;
+ 113   1          BUZZER = 0;
+ 114   1      
+ 115   1          lcd_init();
+ 116   1      
+C51 COMPILER V9.60.7.0   ACCESS                                                            11/12/2026 23:12:53 PAGE 3   
+
+ 117   1          while(1)
+ 118   1          {
+ 119   2              RELAY = 0;
+ 120   2              BUZZER = 0;
+ 121   2      
+ 122   2              lcd_cmd(0x01);
+ 123   2              lcd_cmd(0x80);
+ 124   2              lcd_string("ACCESS CONTROL");
+ 125   2      
+ 126   2              lcd_cmd(0xC0);
+ 127   2              lcd_string("Enter PIN:");
+ 128   2      
+ 129   2              i = 0;
+ 130   2      
+ 131   2              while(i < 4)
+ 132   2              {
+ 133   3                  key = keypad_scan();
+ 134   3      
+ 135   3                  if(key >= '0' && key <= '9')
+ 136   3                  {
+ 137   4                      entered[i] = key;
+ 138   4                      lcd_data('*');
+ 139   4                      i++;
+ 140   4                  }
+ 141   3                  else if(key == '*')
+ 142   3                  {
+ 143   4                      i = 0;
+ 144   4                      lcd_cmd(0xC0);
+ 145   4                      lcd_string("                ");
+ 146   4                      lcd_cmd(0xC0);
+ 147   4                      lcd_string("Enter PIN:");
+ 148   4                  }
+ 149   3              }
+ 150   2      
+ 151   2              entered[4] = '\0';
+ 152   2      
+ 153   2              correct = 1;
+ 154   2      
+ 155   2              for(i = 0; i < 4; i++)
+ 156   2              {
+ 157   3                  if(entered[i] != password[i])
+ 158   3                  {
+ 159   4                      correct = 0;
+ 160   4                      break;
+ 161   4                  }
+ 162   3              }
+ 163   2      
+ 164   2              lcd_cmd(0x01);
+ 165   2      
+ 166   2              if(correct == 1)
+ 167   2              {
+ 168   3                  attempts = 0;
+ 169   3      
+ 170   3                  lcd_cmd(0x80);
+ 171   3                  lcd_string("ACCESS GRANTED");
+ 172   3      
+ 173   3                  lcd_cmd(0xC0);
+ 174   3                  lcd_string("WELCOME!");
+ 175   3      
+ 176   3                  RELAY = 1;
+ 177   3                  BUZZER = 0;
+ 178   3      
+C51 COMPILER V9.60.7.0   ACCESS                                                            11/12/2026 23:12:53 PAGE 4   
+
+ 179   3                  delay(5000);
+ 180   3      
+ 181   3                  RELAY = 0;
+ 182   3              }
+ 183   2              else
+ 184   2              {
+ 185   3                  attempts++;
+ 186   3      
+ 187   3                  RELAY = 0;
+ 188   3                  BUZZER = 1;
+ 189   3      
+ 190   3                  lcd_cmd(0x80);
+ 191   3                  lcd_string("ACCESS DENIED");
+ 192   3      
+ 193   3                  lcd_cmd(0xC0);
+ 194   3                  lcd_string("Wrong PIN");
+ 195   3      
+ 196   3                  delay(1000);
+ 197   3                  BUZZER = 0;
+ 198   3      
+ 199   3                  delay(1500);
+ 200   3      
+ 201   3                  if(attempts >= 3)
+ 202   3                  {
+ 203   4                      lcd_cmd(0x01);
+ 204   4                      lcd_cmd(0x80);
+ 205   4                      lcd_string("SYSTEM LOCKED");
+ 206   4      
+ 207   4                      lcd_cmd(0xC0);
+ 208   4                      lcd_string("Wait 10 Seconds");
+ 209   4      
+ 210   4                      RELAY = 0;
+ 211   4                      BUZZER = 1;
+ 212   4      
+ 213   4                      delay(10000);
+ 214   4      
+ 215   4                      BUZZER = 0;
+ 216   4                      attempts = 0;
+ 217   4                  }
+ 218   3              }
+ 219   2          }
+ 220   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    586    ----
+   CONSTANT SIZE    =    121    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     30       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
