@@ -1,0 +1,284 @@
+C51 COMPILER V9.60.7.0   FUNCTION                                                          11/12/2026 23:16:51 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE FUNCTION
+OBJECT MODULE PLACED IN .\Objects\function.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE function.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\
+                    -function.lst) TABS(2) OBJECT(.\Objects\function.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          #define KEYPAD P3
+   5          #define LCD P1
+   6          
+   7          sbit RS = P2^0;
+   8          sbit EN = P2^1;
+   9          sbit LED = P2^2;
+  10          sbit BUZZER = P2^3;
+  11          
+  12          unsigned char keymap[4][4] = {
+  13              {'1','2','3','A'},
+  14              {'4','5','6','B'},
+  15              {'7','8','9','C'},
+  16              {'*','0','#','D'}
+  17          };
+  18          
+  19          unsigned char key;
+  20          unsigned int count = 0;
+  21          
+  22          // Delay function
+  23          void delay(unsigned int t)
+  24          {
+  25   1          unsigned int x, y;
+  26   1      
+  27   1          for(x = 0; x < t; x++)
+  28   1              for(y = 0; y < 1275; y++);
+  29   1      }
+  30          
+  31          // LCD command
+  32          void lcd_cmd(unsigned char cmd)
+  33          {
+  34   1          LCD = cmd;
+  35   1          RS = 0;
+  36   1          EN = 1;
+  37   1          delay(2);
+  38   1          EN = 0;
+  39   1      }
+  40          
+  41          // LCD data
+  42          void lcd_data(unsigned char dat)
+  43          {
+  44   1          LCD = dat;
+  45   1          RS = 1;
+  46   1          EN = 1;
+  47   1          delay(2);
+  48   1          EN = 0;
+  49   1      }
+  50          
+  51          // LCD string
+  52          void lcd_string(unsigned char *str)
+  53          {
+  54   1          while(*str)
+C51 COMPILER V9.60.7.0   FUNCTION                                                          11/12/2026 23:16:51 PAGE 2   
+
+  55   1              lcd_data(*str++);
+  56   1      }
+  57          
+  58          // LCD initialization
+  59          void lcd_init()
+  60          {
+  61   1          lcd_cmd(0x38);
+  62   1          lcd_cmd(0x0C);
+  63   1          lcd_cmd(0x06);
+  64   1          lcd_cmd(0x01);
+  65   1          delay(5);
+  66   1      }
+  67          
+  68          // Keypad scanning
+  69          unsigned char keypad_scan(void)
+  70          {
+  71   1          unsigned char row, col;
+  72   1      
+  73   1          while(1)
+  74   1          {
+  75   2              KEYPAD = 0xF0;
+  76   2      
+  77   2              if((KEYPAD & 0xF0) != 0xF0)
+  78   2              {
+  79   3                  delay(20);
+  80   3      
+  81   3                  if((KEYPAD & 0xF0) != 0xF0)
+  82   3                  {
+  83   4                      for(row = 0; row < 4; row++)
+  84   4                      {
+  85   5                          KEYPAD = 0xFF;
+  86   5                          KEYPAD = 0xF0 | (0x0F & ~(1 << row));
+  87   5      
+  88   5                          for(col = 0; col < 4; col++)
+  89   5                          {
+  90   6                              if((KEYPAD & (0x10 << col)) == 0)
+  91   6                              {
+  92   7                                  delay(20);
+  93   7      
+  94   7                                  if((KEYPAD & (0x10 << col)) == 0)
+  95   7                                  {
+  96   8                                      KEYPAD = 0xF0;
+  97   8      
+  98   8                                      while((KEYPAD & 0xF0) != 0xF0);
+  99   8      
+ 100   8                                      delay(20);
+ 101   8                                      return keymap[row][col];
+ 102   8                                  }
+ 103   7                              }
+ 104   6                          }
+ 105   5                      }
+ 106   4                  }
+ 107   3              }
+ 108   2          }
+ 109   1      }
+ 110          
+ 111          // Function 1: LED ON
+ 112          void led_on()
+ 113          {
+ 114   1          LED = 1;
+ 115   1      
+ 116   1          lcd_cmd(0x01);
+C51 COMPILER V9.60.7.0   FUNCTION                                                          11/12/2026 23:16:51 PAGE 3   
+
+ 117   1          lcd_string("LED IS ON");
+ 118   1          delay(1500);
+ 119   1      }
+ 120          
+ 121          // Function 2: LED OFF
+ 122          void led_off()
+ 123          {
+ 124   1          LED = 0;
+ 125   1      
+ 126   1          lcd_cmd(0x01);
+ 127   1          lcd_string("LED IS OFF");
+ 128   1          delay(1500);
+ 129   1      }
+ 130          
+ 131          // Function 3: LED BLINK
+ 132          void led_blink()
+ 133          {
+ 134   1          lcd_cmd(0x01);
+ 135   1          lcd_string("LED BLINKING");
+ 136   1      
+ 137   1          LED = 1;
+ 138   1          delay(500);
+ 139   1          LED = 0;
+ 140   1          delay(500);
+ 141   1      
+ 142   1          LED = 1;
+ 143   1          delay(500);
+ 144   1          LED = 0;
+ 145   1          delay(500);
+ 146   1      }
+ 147          
+ 148          // Function 4: Counter
+ 149          void counter()
+ 150          {
+ 151   1          count++;
+ 152   1      
+ 153   1          lcd_cmd(0x01);
+ 154   1          lcd_string("COUNTER VALUE:");
+ 155   1      
+ 156   1          lcd_cmd(0xC0);
+ 157   1      
+ 158   1          if(count >= 1000)
+ 159   1          {
+ 160   2              lcd_data((count / 1000) + '0');
+ 161   2              count = count % 1000;
+ 162   2          }
+ 163   1      
+ 164   1          lcd_data((count / 100) + '0');
+ 165   1          lcd_data(((count / 10) % 10) + '0');
+ 166   1          lcd_data((count % 10) + '0');
+ 167   1      
+ 168   1          delay(1500);
+ 169   1      }
+ 170          
+ 171          // Function 5: Buzzer ON
+ 172          void buzzer_on()
+ 173          {
+ 174   1          BUZZER = 1;
+ 175   1      
+ 176   1          lcd_cmd(0x01);
+ 177   1          lcd_string("BUZZER IS ON");
+ 178   1          delay(1500);
+C51 COMPILER V9.60.7.0   FUNCTION                                                          11/12/2026 23:16:51 PAGE 4   
+
+ 179   1      }
+ 180          
+ 181          // Function 6: Buzzer OFF
+ 182          void buzzer_off()
+ 183          {
+ 184   1          BUZZER = 0;
+ 185   1      
+ 186   1          lcd_cmd(0x01);
+ 187   1          lcd_string("BUZZER IS OFF");
+ 188   1          delay(1500);
+ 189   1      }
+ 190          
+ 191          // Display menu
+ 192          void display_menu()
+ 193          {
+ 194   1          lcd_cmd(0x01);
+ 195   1          lcd_cmd(0x80);
+ 196   1          lcd_string("1:ON 2:OFF 3:BL");
+ 197   1      
+ 198   1          lcd_cmd(0xC0);
+ 199   1          lcd_string("4:COUNT 5:BUZ 6");
+ 200   1      }
+ 201          
+ 202          // Main program
+ 203          void main()
+ 204          {
+ 205   1          LED = 0;
+ 206   1          BUZZER = 0;
+ 207   1      
+ 208   1          lcd_init();
+ 209   1      
+ 210   1          while(1)
+ 211   1          {
+ 212   2              display_menu();
+ 213   2      
+ 214   2              key = keypad_scan();
+ 215   2      
+ 216   2              switch(key)
+ 217   2              {
+ 218   3                  case '1':
+ 219   3                      led_on();
+ 220   3                      break;
+ 221   3      
+ 222   3                  case '2':
+ 223   3                      led_off();
+ 224   3                      break;
+ 225   3      
+ 226   3                  case '3':
+ 227   3                      led_blink();
+ 228   3                      break;
+ 229   3      
+ 230   3                  case '4':
+ 231   3                      counter();
+ 232   3                      break;
+ 233   3      
+ 234   3                  case '5':
+ 235   3                      buzzer_on();
+ 236   3                      break;
+ 237   3      
+ 238   3                  case '6':
+ 239   3                      buzzer_off();
+ 240   3                      break;
+C51 COMPILER V9.60.7.0   FUNCTION                                                          11/12/2026 23:16:51 PAGE 5   
+
+ 241   3      
+ 242   3                  case '*':
+ 243   3                      LED = 0;
+ 244   3                      BUZZER = 0;
+ 245   3                      count = 0;
+ 246   3                      break;
+ 247   3      
+ 248   3                  default:
+ 249   3                      break;
+ 250   3              }
+ 251   2          }
+ 252   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    645    ----
+   CONSTANT SIZE    =    108    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     19       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

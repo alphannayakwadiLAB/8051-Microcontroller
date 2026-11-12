@@ -1,0 +1,156 @@
+C51 COMPILER V9.60.7.0   NUMBER                                                            11/12/2026 20:41:31 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE NUMBER
+OBJECT MODULE PLACED IN .\Objects\number.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE number.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\nu
+                    -mber.lst) TABS(2) OBJECT(.\Objects\number.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          #define LCD P1
+   5          #define KEYPAD P3
+   6          
+   7          sbit RS = P2^0;
+   8          sbit EN = P2^1;
+   9          
+  10          unsigned char keymap[4][4] =
+  11          {
+  12              {'1','2','3','A'},
+  13              {'4','5','6','B'},
+  14              {'7','8','9','C'},
+  15              {'*','0','#','D'}
+  16          };
+  17          
+  18          void delay(unsigned int t)
+  19          {
+  20   1          unsigned int i, j;
+  21   1      
+  22   1          for(i = 0; i < t; i++)
+  23   1              for(j = 0; j < 1275; j++);
+  24   1      }
+  25          
+  26          void lcd_cmd(unsigned char cmd)
+  27          {
+  28   1          LCD = cmd;
+  29   1          RS = 0;
+  30   1          EN = 1;
+  31   1          delay(2);
+  32   1          EN = 0;
+  33   1          delay(2);
+  34   1      }
+  35          
+  36          void lcd_data(unsigned char dat)
+  37          {
+  38   1          LCD = dat;
+  39   1          RS = 1;
+  40   1          EN = 1;
+  41   1          delay(2);
+  42   1          EN = 0;
+  43   1          delay(2);
+  44   1      }
+  45          
+  46          void lcd_init(void)
+  47          {
+  48   1          delay(20);
+  49   1          lcd_cmd(0x38);
+  50   1          lcd_cmd(0x0C);
+  51   1          lcd_cmd(0x06);
+  52   1          lcd_cmd(0x01);
+  53   1          delay(5);
+  54   1          lcd_cmd(0x80);
+C51 COMPILER V9.60.7.0   NUMBER                                                            11/12/2026 20:41:31 PAGE 2   
+
+  55   1      }
+  56          
+  57          void lcd_string(char *str)
+  58          {
+  59   1          while(*str)
+  60   1              lcd_data(*str++);
+  61   1      }
+  62          
+  63          unsigned char keypad_scan(void)
+  64          {
+  65   1          unsigned char row, col;
+  66   1      
+  67   1          while(1)
+  68   1          {
+  69   2              KEYPAD = 0xF0;
+  70   2      
+  71   2              if((KEYPAD & 0xF0) != 0xF0)
+  72   2              {
+  73   3                  delay(20);
+  74   3      
+  75   3                  for(row = 0; row < 4; row++)
+  76   3                  {
+  77   4                      KEYPAD = 0xFF;
+  78   4                      KEYPAD = 0xF0 | (0x0F & ~(1 << row));
+  79   4      
+  80   4                      for(col = 0; col < 4; col++)
+  81   4                      {
+  82   5                          if((KEYPAD & (0x10 << col)) == 0)
+  83   5                          {
+  84   6                              delay(20);
+  85   6      
+  86   6                              if((KEYPAD & (0x10 << col)) == 0)
+  87   6                              {
+  88   7                                  while(1)
+  89   7                                  {
+  90   8                                      KEYPAD = 0xF0;
+  91   8      
+  92   8                                      if((KEYPAD & 0xF0) == 0xF0)
+  93   8                                          break;
+  94   8                                  }
+  95   7      
+  96   7                                  delay(20);
+  97   7      
+  98   7                                  return keymap[row][col];
+  99   7                              }
+ 100   6                          }
+ 101   5                      }
+ 102   4                  }
+ 103   3              }
+ 104   2          }
+ 105   1      }
+ 106          
+ 107          void main(void)
+ 108          {
+ 109   1          unsigned char key;
+ 110   1      
+ 111   1          P1 = 0x00;
+ 112   1          P3 = 0xFF;
+ 113   1      
+ 114   1          lcd_init();
+ 115   1      
+ 116   1          lcd_string("Press Number:");
+C51 COMPILER V9.60.7.0   NUMBER                                                            11/12/2026 20:41:31 PAGE 3   
+
+ 117   1          lcd_cmd(0xC0);
+ 118   1      
+ 119   1          while(1)
+ 120   1          {
+ 121   2              key = keypad_scan();
+ 122   2      
+ 123   2              if(key >= '0' && key <= '9')
+ 124   2              {
+ 125   3                  lcd_data(key);
+ 126   3              }
+ 127   2          }
+ 128   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    323    ----
+   CONSTANT SIZE    =     14    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     16       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

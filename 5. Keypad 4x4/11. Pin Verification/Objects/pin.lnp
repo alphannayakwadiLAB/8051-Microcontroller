@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\pin.obj" 
+TO ".\Objects\pin" 
+PRINT(".\Listings\pin.m51") CODE( 0X0000-0X0FFF )

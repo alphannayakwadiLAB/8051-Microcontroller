@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\arithmetic.obj" 
+TO ".\Objects\arithmetic" 
+PRINT(".\Listings\arithmetic.m51") CODE( 0X0000-0X0FFF )

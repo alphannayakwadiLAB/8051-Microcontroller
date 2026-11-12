@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\column.obj" 
+TO ".\Objects\column" 
+PRINT(".\Listings\column.m51") CODE( 0X0000-0X0FFF )
