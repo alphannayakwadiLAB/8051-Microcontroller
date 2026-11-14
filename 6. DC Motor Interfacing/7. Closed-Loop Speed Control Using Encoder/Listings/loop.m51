@@ -1,0 +1,213 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    11/13/2026  19:33:51  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\loop.obj TO .\Objects\loop PRINT (.\Listings\loop.m51) CODE
+>>  (0X0000-0X0FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\loop.obj (LOOP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?ULDIV)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?LIMUL)
+
+
+LINK MAP OF MODULE:  .\Objects\loop (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0008H     UNIT         ?DT?LOOP
+                    0010H     0010H                  *** GAP ***
+            BIT     0020H.0   0000H.1   UNIT         ?BI?LOOP
+                    0020H.1   0000H.7                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+                    0006H     0005H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+                    000EH     07F2H                  *** GAP ***
+            CODE    0800H     00FBH     UNIT         ?C?LIB_CODE
+            CODE    08FBH     008CH     UNIT         ?C_C51STARTUP
+            CODE    0987H     007AH     UNIT         ?PR?MAIN?LOOP
+            CODE    0A01H     0043H     UNIT         ?PR?TIMER0_ISR?LOOP
+            CODE    0A44H     0015H     UNIT         ?C_INITSEG
+            CODE    0A59H     000DH     UNIT         ?PR?EXTERNAL0_ISR?LOOP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\loop (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?LOOP
+  +--> ?C_INITSEG
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\loop (?C_STARTUP)
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/13/2026  19:33:51  PAGE 2
+
+
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:08FBH         SEGMENT       ?C_C51STARTUP
+  I:0021H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:08FEH         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:08FBH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:08FBH         LINE#         133
+  C:08FDH         LINE#         134
+  C:08FEH         LINE#         135
+  C:08FFH         LINE#         136
+  C:0901H         LINE#         185
+  C:0904H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        LOOP
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:0020H.0       PUBLIC        sample_ready
+  D:0090H         PUBLIC        P1
+  B:00B0H.2       PUBLIC        ENCODER
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  D:0008H         PUBLIC        sample_ticks
+  B:0090H.2       PUBLIC        EN
+  C:0A01H         PUBLIC        timer0_ISR
+  C:0987H         PUBLIC        main
+  D:000AH         PUBLIC        actual_rpm
+  D:0089H         PUBLIC        TMOD
+  D:000CH         PUBLIC        pulse_count
+  D:000EH         PUBLIC        duty
+  B:0090H.0       PUBLIC        IN1
+  B:0090H.1       PUBLIC        IN2
+  B:00A8H.1       PUBLIC        ET0
+  D:000FH         PUBLIC        pwm_phase
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/13/2026  19:33:51  PAGE 3
+
+
+  D:008CH         PUBLIC        TH0
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  C:0A59H         PUBLIC        external0_ISR
+  -------         PROC          EXTERNAL0_ISR
+  C:0A59H         LINE#         24
+  C:0A5BH         LINE#         26
+  C:0A63H         LINE#         27
+  -------         ENDPROC       EXTERNAL0_ISR
+  -------         PROC          TIMER0_ISR
+  C:0A01H         LINE#         30
+  C:0A05H         LINE#         32
+  C:0A08H         LINE#         33
+  C:0A0BH         LINE#         36
+  C:0A12H         LINE#         37
+  C:0A16H         LINE#         39
+  C:0A18H         LINE#         41
+  C:0A1AH         LINE#         43
+  C:0A21H         LINE#         44
+  C:0A24H         LINE#         47
+  C:0A2CH         LINE#         49
+  C:0A37H         LINE#         50
+  C:0A37H         LINE#         51
+  C:0A3DH         LINE#         52
+  C:0A3FH         LINE#         53
+  C:0A3FH         LINE#         54
+  -------         ENDPROC       TIMER0_ISR
+  -------         PROC          MAIN
+  -------         DO            
+  D:0006H         SYMBOL        pulses
+  -------         ENDDO         
+  C:0987H         LINE#         56
+  C:0987H         LINE#         57
+  C:0987H         LINE#         61
+  C:0989H         LINE#         62
+  C:098BH         LINE#         65
+  C:098DH         LINE#         68
+  C:0990H         LINE#         71
+  C:0998H         LINE#         73
+  C:099BH         LINE#         74
+  C:099EH         LINE#         77
+  C:09A0H         LINE#         78
+  C:09A2H         LINE#         81
+  C:09A4H         LINE#         83
+  C:09A6H         LINE#         84
+  C:09A8H         LINE#         86
+  C:09A8H         LINE#         87
+  C:09A8H         LINE#         88
+  C:09ABH         LINE#         89
+  C:09ABH         LINE#         91
+  C:09ADH         LINE#         93
+  C:09AFH         LINE#         95
+  C:09B3H         LINE#         96
+  C:09B8H         LINE#         98
+  C:09BAH         LINE#         102
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/13/2026  19:33:51  PAGE 4
+
+
+  C:09CEH         LINE#         106
+  C:09E0H         LINE#         107
+  C:09E0H         LINE#         108
+  C:09E7H         LINE#         109
+  C:09E9H         LINE#         110
+  C:09EBH         LINE#         111
+  C:09F6H         LINE#         112
+  C:09F6H         LINE#         113
+  C:09FDH         LINE#         114
+  C:09FFH         LINE#         115
+  C:09FFH         LINE#         116
+  C:09FFH         LINE#         117
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        LOOP
+
+  -------         MODULE        ?C?ULDIV
+  C:083CH         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+  -------         MODULE        ?C?LIMUL
+  C:08CEH         PUBLIC        ?C?LIMUL
+  -------         ENDMOD        ?C?LIMUL
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 00F3H BYTE (11%) *
+******************************************************************************
+
+Program Size: data=17.1 xdata=0 code=623
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

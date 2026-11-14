@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\off.obj" 
+TO ".\Objects\on off" 
+PRINT(".\Listings\on off.m51") CODE( 0X0000-0X0FFF )

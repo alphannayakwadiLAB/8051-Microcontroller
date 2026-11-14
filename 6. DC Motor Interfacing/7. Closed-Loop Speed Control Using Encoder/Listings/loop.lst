@@ -1,0 +1,146 @@
+C51 COMPILER V9.60.7.0   LOOP                                                              11/13/2026 19:33:50 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE LOOP
+OBJECT MODULE PLACED IN .\Objects\loop.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE loop.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\loop
+                    -.lst) TABS(2) OBJECT(.\Objects\loop.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          #define ENCODER_PPR 20
+   5          #define TARGET_RPM 600
+   6          
+   7          sbit IN1 = P1^0;
+   8          sbit IN2 = P1^1;
+   9          sbit EN  = P1^2;
+  10          
+  11          sbit ENCODER = P3^2;
+  12          
+  13          volatile unsigned int pulse_count = 0;
+  14          volatile unsigned int sample_ticks = 0;
+  15          
+  16          volatile bit sample_ready = 0;
+  17          
+  18          volatile unsigned char duty = 8;
+  19          unsigned int actual_rpm = 0;
+  20          
+  21          unsigned char pwm_phase = 0;
+  22          
+  23          // External Interrupt 0 - Encoder
+  24          void external0_ISR(void) interrupt 0
+  25          {
+  26   1          pulse_count++;
+  27   1      }
+  28          
+  29          // Timer0 Interrupt
+  30          void timer0_ISR(void) interrupt 1
+  31          {
+  32   1          TH0 = 0xFF;
+  33   1          TL0 = 0x1A;
+  34   1      
+  35   1          // Software PWM
+  36   1          if(pwm_phase < duty)
+  37   1              EN = 1;
+  38   1          else
+  39   1              EN = 0;
+  40   1      
+  41   1          pwm_phase++;
+  42   1      
+  43   1          if(pwm_phase >= 20)
+  44   1              pwm_phase = 0;
+  45   1      
+  46   1          // Speed measurement interval
+  47   1          sample_ticks++;
+  48   1      
+  49   1          if(sample_ticks >= 400)
+  50   1          {
+  51   2              sample_ticks = 0;
+  52   2              sample_ready = 1;
+  53   2          }
+  54   1      }
+C51 COMPILER V9.60.7.0   LOOP                                                              11/13/2026 19:33:50 PAGE 2   
+
+  55          
+  56          void main()
+  57          {
+  58   1          unsigned int pulses;
+  59   1      
+  60   1          // Motor forward direction
+  61   1          IN1 = 1;
+  62   1          IN2 = 0;
+  63   1      
+  64   1          // Encoder input
+  65   1          ENCODER = 1;
+  66   1      
+  67   1          // Initial PWM duty cycle
+  68   1          duty = 8;
+  69   1      
+  70   1          // Timer0 mode 1
+  71   1          TMOD = (TMOD & 0xF0) | 0x01;
+  72   1      
+  73   1          TH0 = 0xFF;
+  74   1          TL0 = 0x1A;
+  75   1      
+  76   1          // External Interrupt 0
+  77   1          IT0 = 1;
+  78   1          EX0 = 1;
+  79   1      
+  80   1          // Timer0 Interrupt
+  81   1          ET0 = 1;
+  82   1      
+  83   1          EA = 1;
+  84   1          TR0 = 1;
+  85   1      
+  86   1          while(1)
+  87   1          {
+  88   2              if(sample_ready == 1)
+  89   2              {
+  90   3                  // Read encoder pulses safely
+  91   3                  EA = 0;
+  92   3      
+  93   3                  sample_ready = 0;
+  94   3      
+  95   3                  pulses = pulse_count;
+  96   3                  pulse_count = 0;
+  97   3      
+  98   3                  EA = 1;
+  99   3      
+ 100   3                  // Calculate RPM
+ 101   3                  actual_rpm =
+ 102   3                      ((unsigned long)pulses * 600UL)
+ 103   3                      / ENCODER_PPR;
+ 104   3      
+ 105   3                  // Speed control
+ 106   3                  if(actual_rpm + 15 < TARGET_RPM)
+ 107   3                  {
+ 108   4                      if(duty < 20)
+ 109   4                          duty++;
+ 110   4                  }
+ 111   3                  else if(actual_rpm > TARGET_RPM + 15)
+ 112   3                  {
+ 113   4                      if(duty > 0)
+ 114   4                          duty--;
+ 115   4                  }
+ 116   3              }
+C51 COMPILER V9.60.7.0   LOOP                                                              11/13/2026 19:33:50 PAGE 3   
+
+ 117   2          }
+ 118   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    202    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,128 @@
+C51 COMPILER V9.60.7.0   SOFT                                                              11/13/2026 19:21:24 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE SOFT
+OBJECT MODULE PLACED IN .\Objects\soft.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE soft.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\soft
+                    -.lst) TABS(2) OBJECT(.\Objects\soft.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          sbit IN1 = P1^0;
+   5          sbit IN2 = P1^1;
+   6          sbit EN  = P1^2;
+   7          
+   8          sbit START = P3^2;
+   9          sbit STOP  = P3^3;
+  10          
+  11          unsigned char speed = 0;
+  12          unsigned char target = 100;
+  13          
+  14          void delay(unsigned int t)
+  15          {
+  16   1          unsigned int i, j;
+  17   1      
+  18   1          for(i = 0; i < t; i++)
+  19   1              for(j = 0; j < 120; j++);
+  20   1      }
+  21          
+  22          void pwm(unsigned char duty)
+  23          {
+  24   1          unsigned char i;
+  25   1      
+  26   1          for(i = 0; i < 100; i++)
+  27   1          {
+  28   2              if(i < duty)
+  29   2                  EN = 1;
+  30   2              else
+  31   2                  EN = 0;
+  32   2      
+  33   2              delay(1);
+  34   2          }
+  35   1      }
+  36          
+  37          void soft_start()
+  38          {
+  39   1          while(speed < target)
+  40   1          {
+  41   2              speed += 5;
+  42   2      
+  43   2              if(speed > target)
+  44   2                  speed = target;
+  45   2      
+  46   2              pwm(speed);
+  47   2              delay(100);
+  48   2          }
+  49   1      }
+  50          
+  51          void soft_stop()
+  52          {
+  53   1          while(speed > 0)
+  54   1          {
+C51 COMPILER V9.60.7.0   SOFT                                                              11/13/2026 19:21:24 PAGE 2   
+
+  55   2              if(speed >= 5)
+  56   2                  speed -= 5;
+  57   2              else
+  58   2                  speed = 0;
+  59   2      
+  60   2              pwm(speed);
+  61   2              delay(100);
+  62   2          }
+  63   1      
+  64   1          EN = 0;
+  65   1      }
+  66          
+  67          void main()
+  68          {
+  69   1          START = 1;
+  70   1          STOP = 1;
+  71   1      
+  72   1          IN1 = 1;
+  73   1          IN2 = 0;
+  74   1          EN = 0;
+  75   1      
+  76   1          while(1)
+  77   1          {
+  78   2              if(START == 0 && speed == 0)
+  79   2              {
+  80   3                  delay(20);
+  81   3      
+  82   3                  if(START == 0)
+  83   3                  {
+  84   4                      soft_start();
+  85   4      
+  86   4                      while(START == 0);
+  87   4                  }
+  88   3              }
+  89   2      
+  90   2              if(STOP == 0 && speed > 0)
+  91   2              {
+  92   3                  delay(20);
+  93   3      
+  94   3                  if(STOP == 0)
+  95   3                  {
+  96   4                      soft_stop();
+  97   4      
+  98   4                      while(STOP == 0);
+  99   4                  }
+ 100   3              }
+ 101   2          }
+ 102   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    197    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
