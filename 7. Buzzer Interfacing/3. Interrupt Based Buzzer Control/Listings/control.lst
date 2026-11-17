@@ -1,0 +1,78 @@
+C51 COMPILER V9.60.7.0   CONTROL                                                           11/17/2026 19:46:00 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE CONTROL
+OBJECT MODULE PLACED IN .\Objects\control.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE control.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\c
+                    -ontrol.lst) TABS(2) OBJECT(.\Objects\control.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          sbit BUZZER = P2^0;
+   5          
+   6          unsigned int count = 0;
+   7          bit buzzer_state = 0;
+   8          
+   9          // Timer 0 Interrupt Service Routine
+  10          void timer0_ISR(void) interrupt 1
+  11          {
+  12   1          TH0 = 0xFC;
+  13   1          TL0 = 0x66;      // Approximately 1 ms
+  14   1      
+  15   1          count++;
+  16   1      
+  17   1          if(count >= 1000)
+  18   1          {
+  19   2              count = 0;
+  20   2      
+  21   2              buzzer_state = !buzzer_state;
+  22   2      
+  23   2              if(buzzer_state == 1)
+  24   2              {
+  25   3                  BUZZER = 1;  // Buzzer ON
+  26   3              }
+  27   2              else
+  28   2              {
+  29   3                  BUZZER = 0;  // Buzzer OFF
+  30   3              }
+  31   2          }
+  32   1      }
+  33          
+  34          void main()
+  35          {
+  36   1          BUZZER = 0;
+  37   1      
+  38   1          TMOD = 0x01;     // Timer 0 Mode 1
+  39   1      
+  40   1          TH0 = 0xFC;
+  41   1          TL0 = 0x66;
+  42   1      
+  43   1          ET0 = 1;         // Enable Timer 0 interrupt
+  44   1          EA = 1;          // Enable global interrupt
+  45   1      
+  46   1          TR0 = 1;         // Start Timer 0
+  47   1      
+  48   1          while(1)
+  49   1          {
+  50   2              // Main program runs independently
+  51   2          }
+  52   1      }
+
+
+C51 COMPILER V9.60.7.0   CONTROL                                                           11/17/2026 19:46:00 PAGE 2   
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     68    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
