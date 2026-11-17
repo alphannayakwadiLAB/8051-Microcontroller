@@ -1,0 +1,98 @@
+C51 COMPILER V9.60.7.0   SPEED                                                             11/18/2026 00:09:21 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE SPEED
+OBJECT MODULE PLACED IN .\Objects\speed.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE speed.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\spe
+                    -ed.lst) TABS(2) OBJECT(.\Objects\speed.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          sbit IN1 = P2^0;
+   5          sbit IN2 = P2^1;
+   6          sbit IN3 = P2^2;
+   7          sbit IN4 = P2^3;
+   8          
+   9          sbit SPEED_UP = P1^0;
+  10          sbit SPEED_DOWN = P1^1;
+  11          
+  12          unsigned int delay_count = 20;
+  13          
+  14          void delay(void)
+  15          {
+  16   1          unsigned int i, j;
+  17   1      
+  18   1          for(i = 0; i < delay_count; i++)
+  19   1          {
+  20   2              for(j = 0; j < 1000; j++);
+  21   2          }
+  22   1      }
+  23          
+  24          void stepper_step(void)
+  25          {
+  26   1          // Step 1
+  27   1          IN1 = 1; IN2 = 0;
+  28   1          IN3 = 1; IN4 = 0;
+  29   1          delay();
+  30   1      
+  31   1          // Step 2
+  32   1          IN1 = 0; IN2 = 1;
+  33   1          IN3 = 1; IN4 = 0;
+  34   1          delay();
+  35   1      
+  36   1          // Step 3
+  37   1          IN1 = 0; IN2 = 1;
+  38   1          IN3 = 0; IN4 = 1;
+  39   1          delay();
+  40   1      
+  41   1          // Step 4
+  42   1          IN1 = 1; IN2 = 0;
+  43   1          IN3 = 0; IN4 = 1;
+  44   1          delay();
+  45   1      }
+  46          
+  47          void main(void)
+  48          {
+  49   1          SPEED_UP = 1;
+  50   1          SPEED_DOWN = 1;
+  51   1      
+  52   1          while(1)
+  53   1          {
+  54   2              if(SPEED_UP == 0)
+C51 COMPILER V9.60.7.0   SPEED                                                             11/18/2026 00:09:21 PAGE 2   
+
+  55   2              {
+  56   3                  if(delay_count > 5)
+  57   3                      delay_count -= 5;
+  58   3      
+  59   3                  while(SPEED_UP == 0);
+  60   3              }
+  61   2      
+  62   2              if(SPEED_DOWN == 0)
+  63   2              {
+  64   3                  if(delay_count < 50)
+  65   3                      delay_count += 5;
+  66   3      
+  67   3                  while(SPEED_DOWN == 0);
+  68   3              }
+  69   2      
+  70   2              stepper_step();
+  71   2          }
+  72   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    144    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

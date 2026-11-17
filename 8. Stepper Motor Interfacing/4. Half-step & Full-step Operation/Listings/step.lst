@@ -1,0 +1,124 @@
+C51 COMPILER V9.60.7.0   STEP                                                              11/18/2026 00:12:29 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE STEP
+OBJECT MODULE PLACED IN .\Objects\step.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE step.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\step
+                    -.lst) TABS(2) OBJECT(.\Objects\step.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          #define MOTOR P2
+   5          
+   6          sbit FULL_STEP = P1^0;
+   7          sbit HALF_STEP = P1^1;
+   8          
+   9          void delay(void)
+  10          {
+  11   1          unsigned int i, j;
+  12   1      
+  13   1          for(i = 0; i < 10; i++)
+  14   1          {
+  15   2              for(j = 0; j < 1200; j++);
+  16   2          }
+  17   1      }
+  18          
+  19          // Full-step operation: 4 states
+  20          void full_step(void)
+  21          {
+  22   1          unsigned char full[4] =
+  23   1          {
+  24   1              0x05,
+  25   1              0x06,
+  26   1              0x0A,
+  27   1              0x09
+  28   1          };
+  29   1      
+  30   1          unsigned char i;
+  31   1      
+  32   1          for(i = 0; i < 4; i++)
+  33   1          {
+  34   2              MOTOR = (MOTOR & 0xF0) | full[i];
+  35   2              delay();
+  36   2          }
+  37   1      }
+  38          
+  39          // Half-step operation: 8 states
+  40          void half_step(void)
+  41          {
+  42   1          unsigned char half[8] =
+  43   1          {
+  44   1              0x05,
+  45   1              0x04,
+  46   1              0x06,
+  47   1              0x02,
+  48   1              0x0A,
+  49   1              0x08,
+  50   1              0x09,
+  51   1              0x01
+  52   1          };
+  53   1      
+  54   1          unsigned char i;
+C51 COMPILER V9.60.7.0   STEP                                                              11/18/2026 00:12:29 PAGE 2   
+
+  55   1      
+  56   1          for(i = 0; i < 8; i++)
+  57   1          {
+  58   2              MOTOR = (MOTOR & 0xF0) | half[i];
+  59   2              delay();
+  60   2          }
+  61   1      }
+  62          
+  63          void main(void)
+  64          {
+  65   1          MOTOR = 0x00;
+  66   1      
+  67   1          FULL_STEP = 1;
+  68   1          HALF_STEP = 1;
+  69   1      
+  70   1          while(1)
+  71   1          {
+  72   2              if(FULL_STEP == 0)
+  73   2              {
+  74   3                  while(FULL_STEP == 0);
+  75   3      
+  76   3                  while(1)
+  77   3                  {
+  78   4                      if(HALF_STEP == 0)
+  79   4                          break;
+  80   4      
+  81   4                      full_step();
+  82   4                  }
+  83   3              }
+  84   2      
+  85   2              if(HALF_STEP == 0)
+  86   2              {
+  87   3                  while(HALF_STEP == 0);
+  88   3      
+  89   3                  while(1)
+  90   3                  {
+  91   4                      if(FULL_STEP == 0)
+  92   4                          break;
+  93   4      
+  94   4                      half_step();
+  95   4                  }
+  96   3              }
+  97   2          }
+  98   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    137    ----
+   CONSTANT SIZE    =     12    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      12
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

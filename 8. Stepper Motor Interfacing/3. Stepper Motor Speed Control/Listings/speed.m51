@@ -1,0 +1,175 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    11/18/2026  00:09:21  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\speed.obj TO .\Objects\speed PRINT (.\Listings\speed.m51) C
+>> ODE (0X0000-0X0FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\speed.obj (SPEED)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\speed (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         ?DT?SPEED
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     008CH     UNIT         ?C_C51STARTUP
+            CODE    088CH     0042H     UNIT         ?PR?MAIN?SPEED
+            CODE    08CEH     002CH     UNIT         ?PR?STEPPER_STEP?SPEED
+            CODE    08FAH     0022H     UNIT         ?PR?DELAY?SPEED
+            CODE    091CH     0005H     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\speed (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?SPEED
+  +--> ?C_INITSEG
+
+?PR?MAIN?SPEED
+  +--> ?PR?STEPPER_STEP?SPEED
+
+?PR?STEPPER_STEP?SPEED
+  +--> ?PR?DELAY?SPEED
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\speed (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/18/2026  00:09:21  PAGE 2
+
+
+
+  -------         MODULE        ?C_STARTUP
+  C:0800H         SEGMENT       ?C_C51STARTUP
+  I:000AH         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0803H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0800H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0800H         LINE#         133
+  C:0802H         LINE#         134
+  C:0803H         LINE#         135
+  C:0804H         LINE#         136
+  C:0806H         LINE#         185
+  C:0809H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        SPEED
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  B:0090H.1       PUBLIC        SPEED_DOWN
+  C:08FAH         PUBLIC        delay
+  D:0008H         PUBLIC        delay_count
+  C:088CH         PUBLIC        main
+  C:08CEH         PUBLIC        stepper_step
+  B:00A0H.0       PUBLIC        IN1
+  B:00A0H.1       PUBLIC        IN2
+  B:00A0H.2       PUBLIC        IN3
+  B:00A0H.3       PUBLIC        IN4
+  B:0090H.0       PUBLIC        SPEED_UP
+  -------         PROC          DELAY
+  -------         DO            
+  D:0006H         SYMBOL        i
+  D:0004H         SYMBOL        j
+  -------         ENDDO         
+  C:08FAH         LINE#         14
+  C:08FAH         LINE#         15
+  C:08FAH         LINE#         18
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/18/2026  00:09:21  PAGE 3
+
+
+  C:0906H         LINE#         19
+  C:0906H         LINE#         20
+  C:0914H         LINE#         21
+  C:091BH         LINE#         22
+  -------         ENDPROC       DELAY
+  -------         PROC          STEPPER_STEP
+  C:08CEH         LINE#         24
+  C:08CEH         LINE#         25
+  C:08CEH         LINE#         27
+  C:08D2H         LINE#         28
+  C:08D6H         LINE#         29
+  C:08D9H         LINE#         32
+  C:08DDH         LINE#         33
+  C:08E1H         LINE#         34
+  C:08E4H         LINE#         37
+  C:08E8H         LINE#         38
+  C:08ECH         LINE#         39
+  C:08EFH         LINE#         42
+  C:08F3H         LINE#         43
+  C:08F7H         LINE#         44
+  -------         ENDPROC       STEPPER_STEP
+  -------         PROC          MAIN
+  C:088CH         LINE#         47
+  C:088CH         LINE#         48
+  C:088CH         LINE#         49
+  C:088EH         LINE#         50
+  C:0890H         LINE#         52
+  C:0890H         LINE#         53
+  C:0890H         LINE#         54
+  C:0893H         LINE#         55
+  C:0893H         LINE#         56
+  C:089EH         LINE#         57
+  C:08AAH         LINE#         59
+  C:08ADH         LINE#         60
+  C:08ADH         LINE#         62
+  C:08B0H         LINE#         63
+  C:08B0H         LINE#         64
+  C:08BBH         LINE#         65
+  C:08C6H         LINE#         67
+  C:08C9H         LINE#         68
+  C:08C9H         LINE#         70
+  C:08CCH         LINE#         71
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        SPEED
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 00A3H BYTE ( 7%) *
+******************************************************************************
+
+Program Size: data=11.0 xdata=0 code=292
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

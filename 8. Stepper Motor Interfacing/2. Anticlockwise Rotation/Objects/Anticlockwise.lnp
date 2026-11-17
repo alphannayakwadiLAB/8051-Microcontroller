@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\anticlockwise.obj" 
+TO ".\Objects\Anticlockwise" 
+PRINT(".\Listings\Anticlockwise.m51") CODE( 0X0000-0X0FFF )

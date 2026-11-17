@@ -1,0 +1,124 @@
+C51 COMPILER V9.60.7.0   PUSH                                                              11/18/2026 00:30:17 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE PUSH
+OBJECT MODULE PLACED IN .\Objects\push.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE push.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\push
+                    -.lst) TABS(2) OBJECT(.\Objects\push.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          #define MOTOR P2
+   5          
+   6          sbit CW    = P1^0;
+   7          sbit CCW   = P1^1;
+   8          sbit STOP  = P1^2;
+   9          sbit SPEED = P1^3;
+  10          
+  11          unsigned int delay_count = 20;
+  12          unsigned char direction = 0;
+  13          
+  14          void delay(void)
+  15          {
+  16   1          unsigned int i, j;
+  17   1      
+  18   1          for(i = 0; i < delay_count; i++)
+  19   1          {
+  20   2              for(j = 0; j < 1000; j++);
+  21   2          }
+  22   1      }
+  23          
+  24          void step_motor(void)
+  25          {
+  26   1          unsigned char seq_cw[4] =
+  27   1          {
+  28   1              0x05, 0x06, 0x0A, 0x09
+  29   1          };
+  30   1      
+  31   1          unsigned char seq_ccw[4] =
+  32   1          {
+  33   1              0x09, 0x0A, 0x06, 0x05
+  34   1          };
+  35   1      
+  36   1          unsigned char i;
+  37   1      
+  38   1          for(i = 0; i < 4; i++)
+  39   1          {
+  40   2              if(STOP == 0)
+  41   2                  return;
+  42   2      
+  43   2              if(direction == 1)
+  44   2                  MOTOR = (MOTOR & 0xF0) | seq_cw[i];
+  45   2              else
+  46   2                  MOTOR = (MOTOR & 0xF0) | seq_ccw[i];
+  47   2      
+  48   2              delay();
+  49   2          }
+  50   1      }
+  51          
+  52          void main(void)
+  53          {
+  54   1          CW = 1;
+C51 COMPILER V9.60.7.0   PUSH                                                              11/18/2026 00:30:17 PAGE 2   
+
+  55   1          CCW = 1;
+  56   1          STOP = 1;
+  57   1          SPEED = 1;
+  58   1      
+  59   1          MOTOR = 0x00;
+  60   1      
+  61   1          while(1)
+  62   1          {
+  63   2              if(CW == 0)
+  64   2              {
+  65   3                  direction = 1;
+  66   3                  while(CW == 0);
+  67   3              }
+  68   2      
+  69   2              if(CCW == 0)
+  70   2              {
+  71   3                  direction = 2;
+  72   3                  while(CCW == 0);
+  73   3              }
+  74   2      
+  75   2              if(SPEED == 0)
+  76   2              {
+  77   3                  if(delay_count > 5)
+  78   3                      delay_count -= 5;
+  79   3                  else
+  80   3                      delay_count = 30;
+  81   3      
+  82   3                  while(SPEED == 0);
+  83   3              }
+  84   2      
+  85   2              if(STOP == 0)
+  86   2              {
+  87   3                  direction = 0;
+  88   3                  MOTOR = 0x00;
+  89   3      
+  90   3                  while(STOP == 0);
+  91   3              }
+  92   2      
+  93   2              if(direction != 0)
+  94   2              {
+  95   3                  step_motor();
+  96   3              }
+  97   2          }
+  98   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    193    ----
+   CONSTANT SIZE    =      8    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3       8
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

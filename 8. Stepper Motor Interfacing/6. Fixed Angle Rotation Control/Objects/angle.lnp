@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\fixed.obj" 
+TO ".\Objects\angle" 
+PRINT(".\Listings\angle.m51") CODE( 0X0000-0X0FFF )
