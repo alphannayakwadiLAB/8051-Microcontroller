@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\position.obj" 
+TO ".\Objects\o position" 
+PRINT(".\Listings\o position.m51") CODE( 0X0000-0X0FFF )

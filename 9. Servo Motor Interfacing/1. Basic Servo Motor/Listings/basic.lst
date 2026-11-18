@@ -1,0 +1,92 @@
+C51 COMPILER V9.60.7.0   BASIC                                                             11/18/2026 18:37:13 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE BASIC
+OBJECT MODULE PLACED IN .\Objects\basic.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE basic.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\bas
+                    -ic.lst) TABS(2) OBJECT(.\Objects\basic.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          sbit SERVO = P2^0;
+   5          
+   6          // Timer 0 delay using 11.0592 MHz crystal
+   7          void delay_us(unsigned int us)
+   8          {
+   9   1          unsigned long count;
+  10   1          unsigned int reload;
+  11   1      
+  12   1          count = ((unsigned long)us * 9216UL) / 10000UL;
+  13   1      
+  14   1          reload = 65536UL - count;
+  15   1      
+  16   1          TH0 = reload >> 8;
+  17   1          TL0 = reload;
+  18   1      
+  19   1          TF0 = 0;
+  20   1          TR0 = 1;
+  21   1      
+  22   1          while(TF0 == 0);
+  23   1      
+  24   1          TR0 = 0;
+  25   1          TF0 = 0;
+  26   1      }
+  27          
+  28          // Generate one 20 ms servo frame
+  29          void servo_position(unsigned int pulse)
+  30          {
+  31   1          SERVO = 1;
+  32   1          delay_us(pulse);
+  33   1      
+  34   1          SERVO = 0;
+  35   1          delay_us(20000 - pulse);
+  36   1      }
+  37          
+  38          // Hold a position
+  39          void servo_hold(unsigned int pulse)
+  40          {
+  41   1          unsigned char i;
+  42   1      
+  43   1          for(i = 0; i < 50; i++)
+  44   1          {
+  45   2              servo_position(pulse);
+  46   2          }
+  47   1      }
+  48          
+  49          void main()
+  50          {
+  51   1          TMOD = 0x01;    // Timer 0, Mode 1
+  52   1      
+  53   1          SERVO = 0;
+  54   1      
+C51 COMPILER V9.60.7.0   BASIC                                                             11/18/2026 18:37:13 PAGE 2   
+
+  55   1          while(1)
+  56   1          {
+  57   2              // 0 Degree
+  58   2              servo_hold(1000);
+  59   2      
+  60   2              // 90 Degree
+  61   2              servo_hold(1500);
+  62   2      
+  63   2              // 180 Degree
+  64   2              servo_hold(2000);
+  65   2          }
+  66   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    126    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       9
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

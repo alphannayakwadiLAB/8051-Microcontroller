@@ -1,0 +1,113 @@
+C51 COMPILER V9.60.7.0   SPEED                                                             11/18/2026 19:02:36 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE SPEED
+OBJECT MODULE PLACED IN .\Objects\speed.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE speed.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\spe
+                    -ed.lst) TABS(2) OBJECT(.\Objects\speed.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          sbit SERVO = P2^0;
+   5          
+   6          // Timer 0 delay for 11.0592 MHz
+   7          void delay_us(unsigned int us)
+   8          {
+   9   1          unsigned long count;
+  10   1          unsigned int reload;
+  11   1      
+  12   1          count = ((unsigned long)us * 9216UL) / 10000UL;
+  13   1      
+  14   1          reload = 65536UL - count;
+  15   1      
+  16   1          TH0 = reload >> 8;
+  17   1          TL0 = reload;
+  18   1      
+  19   1          TF0 = 0;
+  20   1          TR0 = 1;
+  21   1      
+  22   1          while(TF0 == 0);
+  23   1      
+  24   1          TR0 = 0;
+  25   1          TF0 = 0;
+  26   1      }
+  27          
+  28          // Servo PWM signal
+  29          void servo_position(unsigned int pulse)
+  30          {
+  31   1          SERVO = 1;
+  32   1          delay_us(pulse);
+  33   1      
+  34   1          SERVO = 0;
+  35   1          delay_us(20000 - pulse);
+  36   1      }
+  37          
+  38          // Move servo gradually
+  39          void servo_move(unsigned int start,
+  40                          unsigned int end,
+  41                          unsigned int step_delay)
+  42          {
+  43   1          unsigned int angle;
+  44   1          unsigned int pulse;
+  45   1          unsigned char i;
+  46   1      
+  47   1          if(start < end)
+  48   1          {
+  49   2              for(angle = start; angle <= end; angle++)
+  50   2              {
+  51   3                  pulse = 1000 + (angle * 1000UL) / 180;
+  52   3      
+  53   3                  for(i = 0; i < step_delay; i++)
+  54   3                  {
+C51 COMPILER V9.60.7.0   SPEED                                                             11/18/2026 19:02:36 PAGE 2   
+
+  55   4                      servo_position(pulse);
+  56   4                  }
+  57   3              }
+  58   2          }
+  59   1          else
+  60   1          {
+  61   2              for(angle = start; angle >= end; angle--)
+  62   2              {
+  63   3                  pulse = 1000 + (angle * 1000UL) / 180;
+  64   3      
+  65   3                  for(i = 0; i < step_delay; i++)
+  66   3                  {
+  67   4                      servo_position(pulse);
+  68   4                  }
+  69   3              }
+  70   2          }
+  71   1      }
+  72          
+  73          void main()
+  74          {
+  75   1          TMOD = 0x01;
+  76   1      
+  77   1          SERVO = 0;
+  78   1      
+  79   1          while(1)
+  80   1          {
+  81   2              // Clockwise movement
+  82   2              servo_move(0, 180, 2);
+  83   2      
+  84   2              // Anticlockwise movement
+  85   2              servo_move(180, 0, 2);
+  86   2          }
+  87   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    297    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      17
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

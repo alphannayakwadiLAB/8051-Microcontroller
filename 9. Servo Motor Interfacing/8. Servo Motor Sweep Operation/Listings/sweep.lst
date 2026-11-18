@@ -1,0 +1,106 @@
+C51 COMPILER V9.60.7.0   SWEEP                                                             11/18/2026 19:11:03 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE SWEEP
+OBJECT MODULE PLACED IN .\Objects\sweep.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE sweep.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\swe
+                    -ep.lst) TABS(2) OBJECT(.\Objects\sweep.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          sbit SERVO = P2^0;
+   5          
+   6          // Timer 0 delay for 11.0592 MHz
+   7          void delay_us(unsigned int us)
+   8          {
+   9   1          unsigned long count;
+  10   1          unsigned int reload;
+  11   1      
+  12   1          count = ((unsigned long)us * 9216UL) / 10000UL;
+  13   1      
+  14   1          reload = 65536UL - count;
+  15   1      
+  16   1          TH0 = reload >> 8;
+  17   1          TL0 = reload;
+  18   1      
+  19   1          TF0 = 0;
+  20   1          TR0 = 1;
+  21   1      
+  22   1          while(TF0 == 0);
+  23   1      
+  24   1          TR0 = 0;
+  25   1          TF0 = 0;
+  26   1      }
+  27          
+  28          // Generate servo signal
+  29          void servo_position(unsigned int pulse)
+  30          {
+  31   1          SERVO = 1;
+  32   1          delay_us(pulse);
+  33   1      
+  34   1          SERVO = 0;
+  35   1          delay_us(20000 - pulse);
+  36   1      }
+  37          
+  38          // Hold position for some time
+  39          void servo_hold(unsigned int pulse)
+  40          {
+  41   1          unsigned char i;
+  42   1      
+  43   1          for(i = 0; i < 10; i++)
+  44   1          {
+  45   2              servo_position(pulse);
+  46   2          }
+  47   1      }
+  48          
+  49          // Automatic sweep operation
+  50          void main()
+  51          {
+  52   1          unsigned int angle;
+  53   1          unsigned int pulse;
+  54   1      
+C51 COMPILER V9.60.7.0   SWEEP                                                             11/18/2026 19:11:03 PAGE 2   
+
+  55   1          TMOD = 0x01;   // Timer 0 Mode 1
+  56   1      
+  57   1          SERVO = 0;
+  58   1      
+  59   1          while(1)
+  60   1          {
+  61   2              // Clockwise: 0 to 180 degrees
+  62   2              for(angle = 0; angle <= 180; angle += 5)
+  63   2              {
+  64   3                  pulse = 1000 + (angle * 1000UL) / 180;
+  65   3      
+  66   3                  servo_hold(pulse);
+  67   3              }
+  68   2      
+  69   2              // Anticlockwise: 180 to 0 degrees
+  70   2              for(angle = 180; angle >= 5; angle -= 5)
+  71   2              {
+  72   3                  pulse = 1000 + (angle * 1000UL) / 180;
+  73   3      
+  74   3                  servo_hold(pulse);
+  75   3              }
+  76   2      
+  77   2              // Return to exactly 0 degrees
+  78   2              servo_hold(1000);
+  79   2          }
+  80   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    212    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      13
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

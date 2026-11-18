@@ -1,0 +1,115 @@
+C51 COMPILER V9.60.7.0   PUSH                                                              11/18/2026 18:48:37 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE PUSH
+OBJECT MODULE PLACED IN .\Objects\push.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE push.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\push
+                    -.lst) TABS(2) OBJECT(.\Objects\push.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          sbit SERVO = P2^0;
+   5          
+   6          sbit BUTTON_0   = P1^0;
+   7          sbit BUTTON_90  = P1^1;
+   8          sbit BUTTON_180 = P1^2;
+   9          
+  10          // Timer 0 delay for 11.0592 MHz
+  11          void delay_us(unsigned int us)
+  12          {
+  13   1          unsigned long count;
+  14   1          unsigned int reload;
+  15   1      
+  16   1          count = ((unsigned long)us * 9216UL) / 10000UL;
+  17   1      
+  18   1          reload = 65536UL - count;
+  19   1      
+  20   1          TH0 = reload >> 8;
+  21   1          TL0 = reload;
+  22   1      
+  23   1          TF0 = 0;
+  24   1          TR0 = 1;
+  25   1      
+  26   1          while(TF0 == 0);
+  27   1      
+  28   1          TR0 = 0;
+  29   1          TF0 = 0;
+  30   1      }
+  31          
+  32          // Generate one servo signal frame
+  33          void servo_position(unsigned int pulse)
+  34          {
+  35   1          SERVO = 1;
+  36   1          delay_us(pulse);
+  37   1      
+  38   1          SERVO = 0;
+  39   1          delay_us(20000 - pulse);
+  40   1      }
+  41          
+  42          // Hold selected position
+  43          void servo_hold(unsigned int pulse)
+  44          {
+  45   1          unsigned char i;
+  46   1      
+  47   1          for(i = 0; i < 5; i++)
+  48   1          {
+  49   2              servo_position(pulse);
+  50   2          }
+  51   1      }
+  52          
+  53          void main()
+  54          {
+C51 COMPILER V9.60.7.0   PUSH                                                              11/18/2026 18:48:37 PAGE 2   
+
+  55   1          TMOD = 0x01;   // Timer 0 Mode 1
+  56   1      
+  57   1          SERVO = 0;
+  58   1      
+  59   1          BUTTON_0 = 1;
+  60   1          BUTTON_90 = 1;
+  61   1          BUTTON_180 = 1;
+  62   1      
+  63   1          while(1)
+  64   1          {
+  65   2              if(BUTTON_0 == 0)
+  66   2              {
+  67   3                  delay_us(20000); // Debounce
+  68   3      
+  69   3                  if(BUTTON_0 == 0)
+  70   3                      servo_hold(1000);
+  71   3              }
+  72   2      
+  73   2              else if(BUTTON_90 == 0)
+  74   2              {
+  75   3                  delay_us(20000);
+  76   3      
+  77   3                  if(BUTTON_90 == 0)
+  78   3                      servo_hold(1500);
+  79   3              }
+  80   2      
+  81   2              else if(BUTTON_180 == 0)
+  82   2              {
+  83   3                  delay_us(20000);
+  84   3      
+  85   3                  if(BUTTON_180 == 0)
+  86   3                      servo_hold(2000);
+  87   3              }
+  88   2          }
+  89   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    164    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       9
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

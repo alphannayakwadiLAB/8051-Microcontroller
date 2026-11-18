@@ -1,0 +1,207 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    11/18/2026  19:11:03  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\sweep.obj TO .\Objects\sweep PRINT (.\Listings\sweep.m51) C
+>> ODE (0X0000-0X0FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\sweep.obj (SWEEP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?ULDIV)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?LIMUL)
+
+
+LINK MAP OF MODULE:  .\Objects\sweep (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000DH     UNIT         _DATA_GROUP_
+            IDATA   0015H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     00FBH     UNIT         ?C?LIB_CODE
+            CODE    08FBH     0051H     UNIT         ?PR?MAIN?SWEEP
+            CODE    094CH     0039H     UNIT         ?PR?_SERVO_HOLD?SWEEP
+            CODE    0985H     0031H     UNIT         ?PR?_DELAY_US?SWEEP
+            CODE    09B6H     0019H     UNIT         ?PR?_SERVO_POSITION?SWEEP
+            CODE    09CFH     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\sweep (?C_STARTUP)
+
+
+SEGMENT                             DATA_GROUP 
+  +--> CALLED SEGMENT             START    LENGTH
+-------------------------------------------------
+?C_C51STARTUP                     -----    -----
+  +--> ?PR?MAIN?SWEEP
+
+?PR?MAIN?SWEEP                    0008H    0004H
+  +--> ?PR?_SERVO_HOLD?SWEEP
+
+?PR?_SERVO_HOLD?SWEEP             000CH    0003H
+  +--> ?PR?_SERVO_POSITION?SWEEP
+
+?PR?_SERVO_POSITION?SWEEP         000FH    0002H
+  +--> ?PR?_DELAY_US?SWEEP
+
+?PR?_DELAY_US?SWEEP               0011H    0004H
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/18/2026  19:11:03  PAGE 2
+
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\sweep (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:09CFH         SEGMENT       ?C_C51STARTUP
+  I:0015H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:09D2H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:09CFH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:09CFH         LINE#         133
+  C:09D1H         LINE#         134
+  C:09D2H         LINE#         135
+  C:09D3H         LINE#         136
+  C:09D5H         LINE#         185
+  C:09D8H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        SWEEP
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00A0H         PUBLIC        P2
+  C:09B6H         PUBLIC        _servo_position
+  B:00A0H.0       PUBLIC        SERVO
+  C:08FBH         PUBLIC        main
+  D:0089H         PUBLIC        TMOD
+  C:096DH         PUBLIC        _servo_hold
+  B:0088H.5       PUBLIC        TF0
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  C:0985H         PUBLIC        _delay_us
+  -------         PROC          _DELAY_US
+  D:0006H         SYMBOL        us
+  -------         DO            
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/18/2026  19:11:03  PAGE 3
+
+
+  D:0011H         SYMBOL        count
+  D:0004H         SYMBOL        reload
+  -------         ENDDO         
+  C:0985H         LINE#         7
+  C:0985H         LINE#         8
+  C:0985H         LINE#         12
+  C:099EH         LINE#         14
+  C:09A6H         LINE#         16
+  C:09A8H         LINE#         17
+  C:09AAH         LINE#         19
+  C:09ACH         LINE#         20
+  C:09AEH         LINE#         22
+  C:09B1H         LINE#         24
+  C:09B3H         LINE#         25
+  C:09B5H         LINE#         26
+  -------         ENDPROC       _DELAY_US
+  -------         PROC          _SERVO_POSITION
+  D:000FH         SYMBOL        pulse
+  C:09B6H         LINE#         29
+  C:09BAH         LINE#         30
+  C:09BAH         LINE#         31
+  C:09BCH         LINE#         32
+  C:09BFH         LINE#         34
+  C:09C1H         LINE#         35
+  -------         ENDPROC       _SERVO_POSITION
+  -------         PROC          L?0018
+  -------         ENDPROC       L?0018
+  -------         PROC          _SERVO_HOLD
+  D:000CH         SYMBOL        pulse
+  -------         DO            
+  D:000EH         SYMBOL        i
+  -------         ENDDO         
+  C:096DH         LINE#         39
+  C:0971H         LINE#         40
+  C:0971H         LINE#         43
+  C:0974H         LINE#         44
+  C:0974H         LINE#         45
+  C:097BH         LINE#         46
+  C:0984H         LINE#         47
+  -------         ENDPROC       _SERVO_HOLD
+  -------         PROC          MAIN
+  -------         DO            
+  D:0008H         SYMBOL        angle
+  D:000AH         SYMBOL        pulse
+  -------         ENDDO         
+  C:08FBH         LINE#         50
+  C:08FBH         LINE#         51
+  C:08FBH         LINE#         55
+  C:08FEH         LINE#         57
+  C:0900H         LINE#         59
+  C:0900H         LINE#         60
+  C:0900H         LINE#         62
+  C:0910H         LINE#         63
+  C:0910H         LINE#         64
+  C:0910H         LINE#         66
+  C:0913H         LINE#         67
+  C:0920H         LINE#         70
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/18/2026  19:11:03  PAGE 4
+
+
+  C:0931H         LINE#         71
+  C:0931H         LINE#         72
+  C:0931H         LINE#         74
+  C:0934H         LINE#         75
+  C:0942H         LINE#         78
+  C:0949H         LINE#         79
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        SWEEP
+
+  -------         MODULE        ?C?ULDIV
+  C:083CH         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+  -------         MODULE        ?C?LIMUL
+  C:08CEH         PUBLIC        ?C?LIMUL
+  -------         ENDMOD        ?C?LIMUL
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 00E3H BYTE (11%) *
+******************************************************************************
+
+Program Size: data=22.0 xdata=0 code=478
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
