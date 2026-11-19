@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\voltage.obj" 
+TO ".\Objects\voltage" 
+PRINT(".\Listings\voltage.m51") CODE( 0X0000-0X0FFF )

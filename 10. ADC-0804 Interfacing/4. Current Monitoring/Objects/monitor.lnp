@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\current.obj" 
+TO ".\Objects\monitor" 
+PRINT(".\Listings\monitor.m51") CODE( 0X0000-0X0FFF )

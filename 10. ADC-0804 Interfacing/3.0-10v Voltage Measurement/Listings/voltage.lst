@@ -1,0 +1,83 @@
+C51 COMPILER V9.60.7.0   VOLTAGE                                                           11/19/2026 22:37:34 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE VOLTAGE
+OBJECT MODULE PLACED IN .\Objects\voltage.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE voltage.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\v
+                    -oltage.lst) TABS(2) OBJECT(.\Objects\voltage.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          sbit ADC_RD = P3^7;
+   5          sbit ADC_WR = P3^6;
+   6          sbit ADC_INTR = P3^2;
+   7          
+   8          unsigned char adc_value;
+   9          unsigned int timeout;
+  10          
+  11          void delay(void)
+  12          {
+  13   1          unsigned int i;
+  14   1          for(i=0; i<500; i++);
+  15   1      }
+  16          
+  17          void main(void)
+  18          {
+  19   1          P1 = 0xFF;
+  20   1          P2 = 0x00;
+  21   1      
+  22   1          ADC_RD = 1;
+  23   1          ADC_WR = 1;
+  24   1      
+  25   1          while(1)
+  26   1          {
+  27   2              // Start conversion
+  28   2              ADC_WR = 0;
+  29   2              delay();
+  30   2              ADC_WR = 1;
+  31   2      
+  32   2              // Wait for conversion
+  33   2              timeout = 60000;
+  34   2      
+  35   2              while(ADC_INTR == 1 && timeout > 0)
+  36   2              {
+  37   3                  timeout--;
+  38   3              }
+  39   2      
+  40   2              if(timeout == 0)
+  41   2              {
+  42   3                  P2 = 0x00;
+  43   3              }
+  44   2              else
+  45   2              {
+  46   3                  // Read ADC data
+  47   3                  ADC_RD = 0;
+  48   3                  delay();
+  49   3      
+  50   3                  adc_value = P1;
+  51   3      
+  52   3                  ADC_RD = 1;
+  53   3      
+  54   3                  P2 = adc_value;
+C51 COMPILER V9.60.7.0   VOLTAGE                                                           11/19/2026 22:37:34 PAGE 2   
+
+  55   3              }
+  56   2          }
+  57   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     87    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

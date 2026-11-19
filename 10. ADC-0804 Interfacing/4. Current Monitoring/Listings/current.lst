@@ -1,0 +1,115 @@
+C51 COMPILER V9.60.7.0   CURRENT                                                           11/19/2026 22:41:39 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE CURRENT
+OBJECT MODULE PLACED IN .\Objects\current.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE current.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\c
+                    -urrent.lst) TABS(2) OBJECT(.\Objects\current.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          #define ADC_DATA P1
+   5          
+   6          sbit ADC_RD   = P3^7;
+   7          sbit ADC_WR   = P3^6;
+   8          sbit ADC_INTR = P3^2;
+   9          
+  10          unsigned char adc_value;
+  11          unsigned int timeout;
+  12          unsigned int current_dA;
+  13          
+  14          void delay(void)
+  15          {
+  16   1          unsigned int i;
+  17   1          for(i = 0; i < 500; i++);
+  18   1      }
+  19          
+  20          unsigned char ADC_Read(void)
+  21          {
+  22   1          ADC_RD = 1;
+  23   1          ADC_WR = 1;
+  24   1      
+  25   1          // Start conversion
+  26   1          ADC_WR = 0;
+  27   1          delay();
+  28   1          ADC_WR = 1;
+  29   1      
+  30   1          // Wait for conversion
+  31   1          timeout = 60000;
+  32   1      
+  33   1          while(ADC_INTR == 1 && timeout > 0)
+  34   1          {
+  35   2              timeout--;
+  36   2          }
+  37   1      
+  38   1          if(timeout == 0)
+  39   1              return 128;
+  40   1      
+  41   1          // Read ADC output
+  42   1          ADC_RD = 0;
+  43   1          delay();
+  44   1      
+  45   1          adc_value = ADC_DATA;
+  46   1      
+  47   1          ADC_RD = 1;
+  48   1      
+  49   1          return adc_value;
+  50   1      }
+  51          
+  52          void main(void)
+  53          {
+  54   1          ADC_DATA = 0xFF;
+C51 COMPILER V9.60.7.0   CURRENT                                                           11/19/2026 22:41:39 PAGE 2   
+
+  55   1      
+  56   1          ADC_RD = 1;
+  57   1          ADC_WR = 1;
+  58   1      
+  59   1          P2 = 0;
+  60   1      
+  61   1          while(1)
+  62   1          {
+  63   2              adc_value = ADC_Read();
+  64   2      
+  65   2              // ACS712-5A:
+  66   2              // 2.5V zero current
+  67   2              // 185mV per ampere
+  68   2      
+  69   2              if(adc_value >= 128)
+  70   2              {
+  71   3                  current_dA =
+  72   3                  ((unsigned int)(adc_value - 128) * 500) / 255;
+  73   3      
+  74   3                  current_dA = (current_dA * 100) / 185;
+  75   3              }
+  76   2              else
+  77   2              {
+  78   3                  current_dA =
+  79   3                  ((unsigned int)(128 - adc_value) * 500) / 255;
+  80   3      
+  81   3                  current_dA = (current_dA * 100) / 185;
+  82   3              }
+  83   2      
+  84   2              // Display current in 0.1A units
+  85   2              P2 = current_dA;
+  86   2      
+  87   2              delay();
+  88   2          }
+  89   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    160    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

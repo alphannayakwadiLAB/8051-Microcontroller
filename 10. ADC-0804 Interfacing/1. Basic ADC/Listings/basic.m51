@@ -1,0 +1,161 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    11/19/2026  22:13:49  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\basic.obj TO .\Objects\basic PRINT (.\Listings\basic.m51) C
+>> ODE (0X0000-0X0FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\basic.obj (BASIC)
+
+
+LINK MAP OF MODULE:  .\Objects\basic (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?BASIC
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     0018H     UNIT         ?PR?ADC_READ?BASIC
+            CODE    0818H     0014H     UNIT         ?PR?MAIN?BASIC
+            CODE    082CH     000FH     UNIT         ?PR?DELAY?BASIC
+            CODE    083BH     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\basic (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?BASIC
+
+?PR?MAIN?BASIC
+  +--> ?PR?ADC_READ?BASIC
+  +--> ?PR?DELAY?BASIC
+
+?PR?ADC_READ?BASIC
+  +--> ?PR?DELAY?BASIC
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\basic (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/19/2026  22:13:49  PAGE 2
+
+
+  C:083BH         SEGMENT       ?C_C51STARTUP
+  I:0009H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:083EH         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:083BH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:083BH         LINE#         133
+  C:083DH         LINE#         134
+  C:083EH         LINE#         135
+  C:083FH         LINE#         136
+  C:0841H         LINE#         185
+  C:0844H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        BASIC
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:082CH         PUBLIC        delay
+  C:0818H         PUBLIC        main
+  C:0800H         PUBLIC        ADC_Read
+  D:0008H         PUBLIC        adc_value
+  B:00B0H.7       PUBLIC        ADC_RD
+  B:00B0H.6       PUBLIC        ADC_WR
+  B:00B0H.2       PUBLIC        ADC_INTR
+  -------         PROC          DELAY
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:082CH         LINE#         12
+  C:082CH         LINE#         13
+  C:082CH         LINE#         15
+  C:083AH         LINE#         16
+  -------         ENDPROC       DELAY
+  -------         PROC          ADC_READ
+  -------         DO            
+  D:0007H         SYMBOL        value
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/19/2026  22:13:49  PAGE 3
+
+
+  -------         ENDDO         
+  C:0800H         LINE#         18
+  C:0800H         LINE#         19
+  C:0800H         LINE#         22
+  C:0802H         LINE#         23
+  C:0804H         LINE#         26
+  C:0806H         LINE#         27
+  C:0809H         LINE#         28
+  C:080BH         LINE#         31
+  C:080EH         LINE#         34
+  C:0810H         LINE#         35
+  C:0813H         LINE#         37
+  C:0815H         LINE#         39
+  C:0817H         LINE#         41
+  C:0817H         LINE#         42
+  -------         ENDPROC       ADC_READ
+  -------         PROC          MAIN
+  C:0818H         LINE#         44
+  C:0818H         LINE#         45
+  C:0818H         LINE#         46
+  C:081BH         LINE#         48
+  C:081DH         LINE#         49
+  C:081FH         LINE#         51
+  C:081FH         LINE#         52
+  C:081FH         LINE#         53
+  C:0824H         LINE#         55
+  C:0827H         LINE#         57
+  C:082AH         LINE#         58
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        BASIC
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 004AH BYTE ( 3%) *
+******************************************************************************
+
+Program Size: data=10.0 xdata=0 code=74
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
