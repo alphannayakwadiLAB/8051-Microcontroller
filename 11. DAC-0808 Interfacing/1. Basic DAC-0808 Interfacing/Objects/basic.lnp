@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\basic.obj" 
+TO ".\Objects\basic" 
+PRINT(".\Listings\basic.m51") CODE( 0X0000-0X0FFF )

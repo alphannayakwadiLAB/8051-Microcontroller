@@ -1,0 +1,54 @@
+C51 COMPILER V9.60.7.0   SINEWAVE                                                          11/20/2026 23:23:20 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE SINEWAVE
+OBJECT MODULE PLACED IN .\Objects\sinewave.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE sinewave.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\
+                    -sinewave.lst) TABS(2) OBJECT(.\Objects\sinewave.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          unsigned char code sine_table[32] =
+   4          {
+   5              128, 152, 176, 198, 218, 234, 246, 254,
+   6              255, 254, 246, 234, 218, 198, 176, 152,
+   7              128, 104, 80, 58, 38, 22, 10, 2,
+   8              0, 2, 10, 22, 38, 58, 80, 104
+   9          };
+  10          
+  11          void delay()
+  12          {
+  13   1          unsigned int i;
+  14   1      
+  15   1          for(i = 0; i < 100; i++);
+  16   1      }
+  17          
+  18          void main()
+  19          {
+  20   1          unsigned char i;
+  21   1      
+  22   1          while(1)
+  23   1          {
+  24   2              for(i = 0; i < 32; i++)
+  25   2              {
+  26   3                  P1 = sine_table[i];
+  27   3                  delay();
+  28   3              }
+  29   2          }
+  30   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     33    ----
+   CONSTANT SIZE    =     32    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

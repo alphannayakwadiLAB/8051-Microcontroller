@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\sinewave.obj" 
+TO ".\Objects\sine" 
+PRINT(".\Listings\sine.m51") CODE( 0X0000-0X0FFF )
