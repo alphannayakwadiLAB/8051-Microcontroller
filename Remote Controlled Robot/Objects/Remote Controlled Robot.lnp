@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\Remote Controlled Robot.obj" 
+TO ".\Objects\Remote Controlled Robot" 
+PRINT(".\Listings\Remote Controlled Robot.m51") CODE( 0X0000-0X0FFF )

@@ -1,0 +1,98 @@
+C51 COMPILER V9.60.7.0   REMOTE_CONTROLLED_ROBOT                                           11/21/2026 22:40:39 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE REMOTE_CONTROLLED_ROBOT
+OBJECT MODULE PLACED IN .\Objects\Remote Controlled Robot.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Remote Controlled Robot.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PR
+                    -INT(.\Listings\Remote Controlled Robot.lst) TABS(2) OBJECT(.\Objects\Remote Controlled Robot.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          sbit mot1p = P1^0;
+   4          sbit mot1n = P1^1;
+   5          sbit mot2p = P1^2;
+   6          sbit mot2n = P1^3;
+   7          
+   8          // Motor control switches
+   9          sbit sw1 = P2^0;  // Forward
+  10          sbit sw2 = P2^1;  // Reverse
+  11          sbit sw3 = P2^2;  // Left
+  12          sbit sw4 = P2^3;  // Right
+  13          sbit sw5 = P2^4;  // Stop
+  14          
+  15          void main()
+  16          {
+  17   1          // Motor outputs OFF
+  18   1          mot1p = 0;
+  19   1          mot1n = 0;
+  20   1          mot2p = 0;
+  21   1          mot2n = 0;
+  22   1      
+  23   1          // Configure switches as inputs
+  24   1          P2 = 0xFF;
+  25   1      
+  26   1          while(1)
+  27   1          {
+  28   2              if(sw5 == 0)       // STOP
+  29   2              {
+  30   3                  mot1p = mot1n = 0;
+  31   3                  mot2p = mot2n = 0;
+  32   3              }
+  33   2      
+  34   2              else if(sw1 == 0)  // FORWARD
+  35   2              {
+  36   3                  mot1p = 1;
+  37   3                  mot1n = 0;
+  38   3                  mot2p = 1;
+  39   3                  mot2n = 0;
+  40   3              }
+  41   2      
+  42   2              else if(sw2 == 0)  // REVERSE
+  43   2              {
+  44   3                  mot1p = 0;
+  45   3                  mot1n = 1;
+  46   3                  mot2p = 0;
+  47   3                  mot2n = 1;
+  48   3              }
+  49   2      
+  50   2              else if(sw3 == 0)  // LEFT
+  51   2              {
+  52   3                  mot1p = 0;
+  53   3                  mot1n = 1;
+  54   3                  mot2p = 1;
+C51 COMPILER V9.60.7.0   REMOTE_CONTROLLED_ROBOT                                           11/21/2026 22:40:39 PAGE 2   
+
+  55   3                  mot2n = 0;
+  56   3              }
+  57   2      
+  58   2              else if(sw4 == 0)  // RIGHT
+  59   2              {
+  60   3                  mot1p = 1;
+  61   3                  mot1n = 0;
+  62   3                  mot2p = 0;
+  63   3                  mot2n = 1;
+  64   3              }
+  65   2      
+  66   2              else                // No switch pressed
+  67   2              {
+  68   3                  mot1p = mot1n = 0;
+  69   3                  mot2p = mot2n = 0;
+  70   3              }
+  71   2          }
+  72   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     78    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
