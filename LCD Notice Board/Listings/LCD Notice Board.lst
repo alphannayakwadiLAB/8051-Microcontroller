@@ -1,0 +1,112 @@
+C51 COMPILER V9.60.7.0   LED_NOTICE_BOARD                                                  11/22/2026 00:11:31 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE LED_NOTICE_BOARD
+OBJECT MODULE PLACED IN .\Objects\LED Notice Board.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE LED Notice Board.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\L
+                    -istings\LED Notice Board.lst) TABS(2) OBJECT(.\Objects\LED Notice Board.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          // LCD Pin Connections
+   5          sbit rs = P2^0;
+   6          sbit rw = P2^1;
+   7          sbit en = P2^2;
+   8          
+   9          // Function Declarations
+  10          void lcdcmd(unsigned char);
+  11          void lcddat(unsigned char);
+  12          void delay(void);
+  13          
+  14          void main()
+  15          {
+  16   1          unsigned char x;
+  17   1      
+  18   1          // UART Initialization
+  19   1          SCON = 0x50;       // UART Mode 1, REN Enabled
+  20   1          TMOD = 0x20;       // Timer1 Mode 2
+  21   1          TH1 = 0xFD;        // 9600 Baud @ 11.0592 MHz
+  22   1          TL1 = 0xFD;
+  23   1          TR1 = 1;           // Start Timer1
+  24   1      
+  25   1          // LCD Initialization
+  26   1          lcdcmd(0x38);      // 8-bit, 2-line LCD
+  27   1          lcdcmd(0x0C);      // Display ON, Cursor OFF
+  28   1          lcdcmd(0x01);      // Clear LCD
+  29   1          lcdcmd(0x06);      // Auto Increment Cursor
+  30   1          lcdcmd(0x80);      // First Row, First Column
+  31   1      
+  32   1          while(1)
+  33   1          {
+  34   2              // Receive Data
+  35   2              while(RI == 0);
+  36   2      
+  37   2              x = SBUF;
+  38   2              RI = 0;
+  39   2      
+  40   2              // Transmit Received Data
+  41   2              SBUF = x;
+  42   2      
+  43   2              while(TI == 0);
+  44   2              TI = 0;
+  45   2      
+  46   2              // Display Received Data on LCD
+  47   2              lcddat(x);
+  48   2      
+  49   2              delay();
+  50   2          }
+  51   1      }
+  52          
+  53          // LCD Command Function
+  54          void lcdcmd(unsigned char val)
+C51 COMPILER V9.60.7.0   LED_NOTICE_BOARD                                                  11/22/2026 00:11:31 PAGE 2   
+
+  55          {
+  56   1          P1 = val;
+  57   1          rs = 0;
+  58   1          rw = 0;
+  59   1          en = 1;
+  60   1          delay();
+  61   1          en = 0;
+  62   1          delay();
+  63   1      }
+  64          
+  65          // LCD Data Function
+  66          void lcddat(unsigned char dat)
+  67          {
+  68   1          P1 = dat;
+  69   1          rs = 1;
+  70   1          rw = 0;
+  71   1          en = 1;
+  72   1          delay();
+  73   1          en = 0;
+  74   1          delay();
+  75   1      }
+  76          
+  77          // Delay Function
+  78          void delay(void)
+  79          {
+  80   1          unsigned int i, j;
+  81   1      
+  82   1          for(i = 0; i < 1200; i++)
+  83   1          {
+  84   2              for(j = 0; j < 10; j++);
+  85   2          }
+  86   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    126    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

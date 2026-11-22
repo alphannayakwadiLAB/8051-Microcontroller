@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\LED Notice Board.obj" 
+TO ".\Objects\LED Notice Board" 
+PRINT(".\Listings\LED Notice Board.m51") CODE( 0X0000-0X0FFF )
