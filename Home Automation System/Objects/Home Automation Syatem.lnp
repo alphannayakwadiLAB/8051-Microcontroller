@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\Home Automation Syatem.obj" 
+TO ".\Objects\Home Automation Syatem" 
+PRINT(".\Listings\Home Automation Syatem.m51") CODE( 0X0000-0X0FFF )
