@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\Digital Clock.obj" 
+TO ".\Objects\Digital Clock" 
+PRINT(".\Listings\Digital Clock.m51") CODE( 0X0000-0X0FFF )

@@ -1,0 +1,56 @@
+C51 COMPILER V9.60.7.0   DIGITAL_CLOCK                                                     11/21/2026 20:35:54 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE DIGITAL_CLOCK
+OBJECT MODULE PLACED IN .\Objects\Digital Clock.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Digital Clock.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\List
+                    -ings\Digital Clock.lst) TABS(2) OBJECT(.\Objects\Digital Clock.obj)
+
+line level    source
+
+   1          #include<reg51.h>
+   2          
+   3          sbit seg1=P1^0;
+   4          sbit seg2=P1^1; //common anode pin connection
+   5          sbit seg3=P1^2;
+   6          sbit seg4=P1^3;
+   7          
+   8          void main()
+   9          { 
+  10   1        unsigned int i;
+  11   1          seg1=seg2=seg3=seg4=0;
+  12   1          while(1)
+  13   1          {
+  14   2            seg1=1; // turn on first segment 1
+  15   2            P2=0x90;
+  16   2            for(i=0; i<2000; i++);
+  17   2            seg1=0;
+  18   2            seg2=1;
+  19   2            P2=0xc0;
+  20   2            for(i=0; i<2000; i++);
+  21   2            seg2=0;
+  22   2            seg3=1;
+  23   2            P2=0xc0;
+  24   2            for(i=0; i<2000; i++);
+  25   2            seg3=0;
+  26   2            seg4=1;
+  27   2            P2=0x92;
+  28   2            for(i=0; i<2000; i++);
+  29   2            seg4=0;
+  30   2          }
+  31   1          
+  32   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     94    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
