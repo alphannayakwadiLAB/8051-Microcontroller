@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\I2C.obj" 
+TO ".\Objects\I2C" 
+PRINT(".\Listings\I2C.m51") CODE( 0X0000-0X0FFF )

@@ -1,0 +1,301 @@
+C51 COMPILER V9.60.7.0   I2C                                                               11/23/2026 18:56:20 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE I2C
+OBJECT MODULE PLACED IN .\Objects\I2C.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE I2C.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\I2C.l
+                    -st) TABS(2) OBJECT(.\Objects\I2C.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          void delay(unsigned int i);
+   4          void lcd_cmd(unsigned char a);
+   5          void lcd_data(unsigned char b);
+   6          void lcd_init(void);
+   7          void lcd_str(unsigned char *str);
+   8          
+   9          void I2C_Start(void);
+  10          void I2C_Stop(void);
+  11          unsigned char I2C_DataRead(void);
+  12          unsigned char I2C_DataWrite(unsigned char Data);
+  13          
+  14          sbit rs  = P2^0;
+  15          sbit en  = P2^1;
+  16          sbit SCL = P3^0;
+  17          sbit SDA = P3^1;
+  18          
+  19          sfr ldata = 0x90;    // LCD data port P1
+  20          
+  21          void main()
+  22          {
+  23   1          unsigned char x;
+  24   1          unsigned char ack;
+  25   1      
+  26   1          lcd_init();
+  27   1      
+  28   1          lcd_cmd(0x80);
+  29   1          lcd_str("   WELCOME TO   ");
+  30   1      
+  31   1          lcd_cmd(0xC0);
+  32   1          lcd_str("   MY PROJECT   ");
+  33   1      
+  34   1          delay(50000);
+  35   1      
+  36   1          lcd_cmd(0x01);
+  37   1          lcd_cmd(0x80);
+  38   1          lcd_str("   Alphan   ");
+  39   1      
+  40   1          lcd_cmd(0xC0);
+  41   1          lcd_str("   Nayakwadi    ");
+  42   1      
+  43   1          delay(50000);
+  44   1      
+  45   1          lcd_cmd(0x01);
+  46   1          lcd_cmd(0x80);
+  47   1          lcd_str(" I2C PROTOCOL R/W");
+  48   1      
+  49   1          delay(30000);
+  50   1      
+  51   1          // ---------------- I2C WRITE ----------------
+  52   1      
+  53   1          I2C_Start();
+  54   1      
+C51 COMPILER V9.60.7.0   I2C                                                               11/23/2026 18:56:20 PAGE 2   
+
+  55   1          ack = I2C_DataWrite(0xA0);    // EEPROM write address
+  56   1          if(ack)
+  57   1          {
+  58   2              ack = I2C_DataWrite(0x00); // Memory address
+  59   2          }
+  60   1      
+  61   1          if(ack)
+  62   1          {
+  63   2              ack = I2C_DataWrite('A');  // Write character A
+  64   2          }
+  65   1      
+  66   1          I2C_Stop();
+  67   1      
+  68   1          // EEPROM write cycle delay
+  69   1          delay(60000);
+  70   1      
+  71   1          // ---------------- I2C READ ----------------
+  72   1      
+  73   1          if(ack)
+  74   1          {
+  75   2              I2C_Start();
+  76   2      
+  77   2              ack = I2C_DataWrite(0xA0); // EEPROM write mode
+  78   2              if(ack)
+  79   2              {
+  80   3                  ack = I2C_DataWrite(0x00); // Memory location 0
+  81   3              }
+  82   2      
+  83   2              if(ack)
+  84   2              {
+  85   3                  I2C_Start();               // Repeated START
+  86   3                  ack = I2C_DataWrite(0xA1); // EEPROM read mode
+  87   3              }
+  88   2      
+  89   2              if(ack)
+  90   2              {
+  91   3                  x = I2C_DataRead();
+  92   3              }
+  93   2      
+  94   2              I2C_Stop();
+  95   2          }
+  96   1      
+  97   1          // ---------------- LCD RESULT ----------------
+  98   1      
+  99   1          lcd_cmd(0x01);
+ 100   1          lcd_cmd(0x80);
+ 101   1      
+ 102   1          if(ack)
+ 103   1          {
+ 104   2              lcd_str("READ SUCCESS");
+ 105   2      
+ 106   2              lcd_cmd(0xC0);
+ 107   2              lcd_str("DATA: ");
+ 108   2              lcd_data(x);
+ 109   2          }
+ 110   1          else
+ 111   1          {
+ 112   2              lcd_str("EEPROM ERROR");
+ 113   2              lcd_cmd(0xC0);
+ 114   2              lcd_str("CHECK I2C WIRE");
+ 115   2          }
+ 116   1      
+C51 COMPILER V9.60.7.0   I2C                                                               11/23/2026 18:56:20 PAGE 3   
+
+ 117   1          while(1);
+ 118   1      }
+ 119          
+ 120          // ---------------- LCD FUNCTIONS ----------------
+ 121          
+ 122          void lcd_init(void)
+ 123          {
+ 124   1          delay(50000);
+ 125   1      
+ 126   1          lcd_cmd(0x38);   // 8-bit, 2-line LCD
+ 127   1          lcd_cmd(0x0C);   // Display ON, cursor OFF
+ 128   1          lcd_cmd(0x01);   // Clear display
+ 129   1          lcd_cmd(0x06);   // Auto increment
+ 130   1          lcd_cmd(0x80);   // First line
+ 131   1      }
+ 132          
+ 133          void delay(unsigned int i)
+ 134          {
+ 135   1          unsigned int j;
+ 136   1      
+ 137   1          for(j = 0; j < i; j++);
+ 138   1      }
+ 139          
+ 140          void lcd_cmd(unsigned char a)
+ 141          {
+ 142   1          rs = 0;
+ 143   1          ldata = a;
+ 144   1          en = 1;
+ 145   1          delay(100);
+ 146   1          en = 0;
+ 147   1          delay(100);
+ 148   1      
+ 149   1          if(a == 0x01 || a == 0x02)
+ 150   1              delay(2000);
+ 151   1      }
+ 152          
+ 153          void lcd_data(unsigned char b)
+ 154          {
+ 155   1          rs = 1;
+ 156   1          ldata = b;
+ 157   1          en = 1;
+ 158   1          delay(100);
+ 159   1          en = 0;
+ 160   1          delay(100);
+ 161   1      }
+ 162          
+ 163          void lcd_str(unsigned char *str)
+ 164          {
+ 165   1          while(*str)
+ 166   1          {
+ 167   2              lcd_data(*str++);
+ 168   2          }
+ 169   1      }
+ 170          
+ 171          // ---------------- I2C START ----------------
+ 172          
+ 173          void I2C_Start(void)
+ 174          {
+ 175   1          SDA = 1;
+ 176   1          SCL = 1;
+ 177   1          delay(100);
+ 178   1      
+C51 COMPILER V9.60.7.0   I2C                                                               11/23/2026 18:56:20 PAGE 4   
+
+ 179   1          SDA = 0;
+ 180   1          delay(100);
+ 181   1      
+ 182   1          SCL = 0;
+ 183   1      }
+ 184          
+ 185          // ---------------- I2C STOP ----------------
+ 186          
+ 187          void I2C_Stop(void)
+ 188          {
+ 189   1          SCL = 0;
+ 190   1          SDA = 0;
+ 191   1          delay(100);
+ 192   1      
+ 193   1          SCL = 1;
+ 194   1          delay(100);
+ 195   1      
+ 196   1          SDA = 1;
+ 197   1          delay(100);
+ 198   1      }
+ 199          
+ 200          // ---------------- I2C WRITE ----------------
+ 201          // Returns 1 if ACK received, 0 if NACK
+ 202          
+ 203          unsigned char I2C_DataWrite(unsigned char Data)
+ 204          {
+ 205   1          unsigned char i;
+ 206   1          unsigned char ack;
+ 207   1      
+ 208   1          for(i = 0; i < 8; i++)
+ 209   1          {
+ 210   2              SCL = 0;
+ 211   2      
+ 212   2              SDA = (Data & 0x80) ? 1 : 0;
+ 213   2      
+ 214   2              delay(100);
+ 215   2              SCL = 1;
+ 216   2              delay(100);
+ 217   2      
+ 218   2              SCL = 0;
+ 219   2              Data = Data << 1;
+ 220   2          }
+ 221   1      
+ 222   1          // Release SDA for slave ACK
+ 223   1          SDA = 1;
+ 224   1          delay(100);
+ 225   1      
+ 226   1          SCL = 1;
+ 227   1          delay(100);
+ 228   1      
+ 229   1          ack = (SDA == 0) ? 1 : 0;
+ 230   1      
+ 231   1          SCL = 0;
+ 232   1          delay(100);
+ 233   1      
+ 234   1          return ack;
+ 235   1      }
+ 236          
+ 237          // ---------------- I2C READ ----------------
+ 238          
+ 239          unsigned char I2C_DataRead(void)
+ 240          {
+C51 COMPILER V9.60.7.0   I2C                                                               11/23/2026 18:56:20 PAGE 5   
+
+ 241   1          unsigned char i;
+ 242   1          unsigned char Dat = 0;
+ 243   1      
+ 244   1          SDA = 1;   // Release SDA
+ 245   1      
+ 246   1          for(i = 0; i < 8; i++)
+ 247   1          {
+ 248   2              SCL = 0;
+ 249   2              delay(100);
+ 250   2      
+ 251   2              SCL = 1;
+ 252   2              delay(100);
+ 253   2      
+ 254   2              Dat = Dat << 1;
+ 255   2              Dat = Dat | SDA;
+ 256   2      
+ 257   2              SCL = 0;
+ 258   2              delay(100);
+ 259   2          }
+ 260   1      
+ 261   1          // Send NACK after reading the final byte
+ 262   1          SDA = 1;
+ 263   1          SCL = 1;
+ 264   1          delay(100);
+ 265   1          SCL = 0;
+ 266   1          SDA = 1;
+ 267   1      
+ 268   1          return Dat;
+ 269   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    540    ----
+   CONSTANT SIZE    =    130    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
