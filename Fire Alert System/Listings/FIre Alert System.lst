@@ -1,0 +1,142 @@
+C51 COMPILER V9.60.7.0   FIRE_ALERT_SYSTEM                                                 11/23/2026 21:46:26 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE FIRE_ALERT_SYSTEM
+OBJECT MODULE PLACED IN .\Objects\FIre Alert System.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE FIre Alert System.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\
+                    -Listings\FIre Alert System.lst) TABS(2) OBJECT(.\Objects\FIre Alert System.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          sbit sensor = P1^0;
+   5          
+   6          sbit rs = P1^1;
+   7          sbit rw = P1^2;
+   8          sbit en = P1^3;
+   9          
+  10          sbit buzzer = P3^0;
+  11          
+  12          void delay(void);
+  13          void lcdinit(void);
+  14          void lcdcmd(unsigned char);
+  15          void lcddat(unsigned char);
+  16          void lcddis(unsigned char *);
+  17          
+  18          void delay(void)
+  19          {
+  20   1          unsigned int i, j;
+  21   1      
+  22   1          for(i = 0; i < 50; i++)
+  23   1              for(j = 0; j < 1275; j++);
+  24   1      }
+  25          
+  26          void lcdcmd(unsigned char cmd)
+  27          {
+  28   1          P2 = cmd;
+  29   1          rs = 0;
+  30   1          rw = 0;
+  31   1          en = 1;
+  32   1          delay();
+  33   1          en = 0;
+  34   1      }
+  35          
+  36          void lcddat(unsigned char dat)
+  37          {
+  38   1          P2 = dat;
+  39   1          rs = 1;
+  40   1          rw = 0;
+  41   1          en = 1;
+  42   1          delay();
+  43   1          en = 0;
+  44   1      }
+  45          
+  46          void lcddis(unsigned char *str)
+  47          {
+  48   1          while(*str)
+  49   1              lcddat(*str++);
+  50   1      }
+  51          
+  52          void lcdinit(void)
+  53          {
+  54   1          lcdcmd(0x38);
+C51 COMPILER V9.60.7.0   FIRE_ALERT_SYSTEM                                                 11/23/2026 21:46:26 PAGE 2   
+
+  55   1          lcdcmd(0x0C);
+  56   1          lcdcmd(0x06);
+  57   1          lcdcmd(0x01);
+  58   1          delay();
+  59   1      }
+  60          
+  61          void main(void)
+  62          {
+  63   1          unsigned char count = 0;
+  64   1          unsigned char i;
+  65   1          bit fire;
+  66   1      
+  67   1          sensor = 1;
+  68   1          buzzer = 0;
+  69   1      
+  70   1          lcdinit();
+  71   1      
+  72   1          while(1)
+  73   1          {
+  74   2              count = 0;
+  75   2      
+  76   2              // Check sensor 10 times
+  77   2              for(i = 0; i < 10; i++)
+  78   2              {
+  79   3                  if(sensor == 1)
+  80   3                      count++;
+  81   3      
+  82   3                  delay();
+  83   3              }
+  84   2      
+  85   2              // Confirm fire if HIGH in at least 8 samples
+  86   2              if(count >= 8)
+  87   2                  fire = 1;
+  88   2              else
+  89   2                  fire = 0;
+  90   2      
+  91   2              if(fire == 1)
+  92   2              {
+  93   3                  lcdcmd(0x01);
+  94   3                  lcdcmd(0x80);
+  95   3                  lcddis("FIRE DETECTED");
+  96   3      
+  97   3                  lcdcmd(0xC0);
+  98   3                  lcddis("ALARM ACTIVE");
+  99   3      
+ 100   3                  buzzer = 1;
+ 101   3              }
+ 102   2              else
+ 103   2              {
+ 104   3                  lcdcmd(0x01);
+ 105   3                  lcdcmd(0x80);
+ 106   3                  lcddis("SYSTEM NORMAL");
+ 107   3      
+ 108   3                  lcdcmd(0xC0);
+ 109   3                  lcddis("NO FIRE");
+ 110   3      
+ 111   3                  buzzer = 0;
+ 112   3              }
+ 113   2          }
+ 114   1      }
+
+
+C51 COMPILER V9.60.7.0   FIRE_ALERT_SYSTEM                                                 11/23/2026 21:46:26 PAGE 3   
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    226    ----
+   CONSTANT SIZE    =     49    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
