@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\Temprature Displayy.obj" 
+TO ".\Objects\Temprature" 
+PRINT(".\Listings\Temprature.m51") CODE( 0X0000-0X0FFF )

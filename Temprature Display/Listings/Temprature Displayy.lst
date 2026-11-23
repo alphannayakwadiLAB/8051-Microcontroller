@@ -1,0 +1,197 @@
+C51 COMPILER V9.60.7.0   TEMPRATURE_DISPLAYY                                               11/23/2026 20:56:25 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE TEMPRATURE_DISPLAYY
+OBJECT MODULE PLACED IN .\Objects\Temprature Displayy.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Temprature Displayy.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(
+                    -.\Listings\Temprature Displayy.lst) TABS(2) OBJECT(.\Objects\Temprature Displayy.obj)
+
+line level    source
+
+   1          
+   2          #include <reg51.h>
+   3          
+   4          #define LCD P2
+   5          
+   6          // LCD control pins
+   7          sbit RS = P3^0;
+   8          sbit RW = P3^1;
+   9          sbit EN = P3^2;
+  10          
+  11          // ADC0804 control pins
+  12          sbit ADC_INTR = P3^3;
+  13          sbit ADC_WR   = P3^6;
+  14          sbit ADC_RD   = P3^7;
+  15          
+  16          // Function declarations
+  17          void delay(unsigned int);
+  18          void lcd_cmd(unsigned char);
+  19          void lcd_data(unsigned char);
+  20          void lcd_init(void);
+  21          void lcd_string(unsigned char *);
+  22          void lcd_number(unsigned int);
+  23          unsigned char ADC_Read(void);
+  24          
+  25          unsigned char adc_value;
+  26          unsigned int temperature;
+  27          
+  28          void main()
+  29          {
+  30   1          lcd_init();
+  31   1      
+  32   1          P1 = 0xFF;
+  33   1      
+  34   1          ADC_RD = 1;
+  35   1          ADC_WR = 1;
+  36   1      
+  37   1          lcd_cmd(0x80);
+  38   1          lcd_string("TEMPERATURE");
+  39   1      
+  40   1          lcd_cmd(0xC0);
+  41   1          lcd_string("MONITOR SYSTEM");
+  42   1      
+  43   1          delay(50000);
+  44   1      
+  45   1          while(1)
+  46   1          {
+  47   2              // Read ADC value
+  48   2              adc_value = ADC_Read();
+  49   2      
+  50   2              // Convert ADC value into temperature
+  51   2              temperature = ((unsigned int)adc_value * 500) / 256;
+  52   2      
+  53   2              // Display temperature
+  54   2              lcd_cmd(0x80);
+C51 COMPILER V9.60.7.0   TEMPRATURE_DISPLAYY                                               11/23/2026 20:56:25 PAGE 2   
+
+  55   2              lcd_string("TEMP MONITOR   ");
+  56   2      
+  57   2              lcd_cmd(0xC0);
+  58   2              lcd_string("TEMP: ");
+  59   2      
+  60   2              lcd_number(temperature);
+  61   2      
+  62   2              lcd_data(0xDF);
+  63   2              lcd_data('C');
+  64   2      
+  65   2              lcd_string("    ");
+  66   2      
+  67   2              delay(30000);
+  68   2          }
+  69   1      }
+  70          
+  71          // ADC0804 reading function
+  72          unsigned char ADC_Read(void)
+  73          {
+  74   1          unsigned char value;
+  75   1      
+  76   1          P1 = 0xFF;
+  77   1      
+  78   1          ADC_RD = 1;
+  79   1          ADC_WR = 1;
+  80   1      
+  81   1          // Start conversion
+  82   1          ADC_WR = 0;
+  83   1          delay(10);
+  84   1          ADC_WR = 1;
+  85   1      
+  86   1          // Wait for conversion complete
+  87   1          while(ADC_INTR == 1);
+  88   1      
+  89   1          // Read ADC output
+  90   1          ADC_RD = 0;
+  91   1          delay(10);
+  92   1      
+  93   1          value = P1;
+  94   1      
+  95   1          ADC_RD = 1;
+  96   1      
+  97   1          return value;
+  98   1      }
+  99          
+ 100          // LCD initialization
+ 101          void lcd_init(void)
+ 102          {
+ 103   1          delay(50000);
+ 104   1      
+ 105   1          RW = 0;
+ 106   1      
+ 107   1          lcd_cmd(0x38);
+ 108   1          lcd_cmd(0x0C);
+ 109   1          lcd_cmd(0x01);
+ 110   1          lcd_cmd(0x06);
+ 111   1          lcd_cmd(0x80);
+ 112   1      }
+ 113          
+ 114          // LCD command
+ 115          void lcd_cmd(unsigned char cmd)
+ 116          {
+C51 COMPILER V9.60.7.0   TEMPRATURE_DISPLAYY                                               11/23/2026 20:56:25 PAGE 3   
+
+ 117   1          RS = 0;
+ 118   1          RW = 0;
+ 119   1      
+ 120   1          LCD = cmd;
+ 121   1      
+ 122   1          EN = 1;
+ 123   1          delay(500);
+ 124   1          EN = 0;
+ 125   1      
+ 126   1          delay(5000);
+ 127   1      }
+ 128          
+ 129          // LCD data
+ 130          void lcd_data(unsigned char dat)
+ 131          {
+ 132   1          RS = 1;
+ 133   1          RW = 0;
+ 134   1      
+ 135   1          LCD = dat;
+ 136   1      
+ 137   1          EN = 1;
+ 138   1          delay(500);
+ 139   1          EN = 0;
+ 140   1      
+ 141   1          delay(5000);
+ 142   1      }
+ 143          
+ 144          // LCD string
+ 145          void lcd_string(unsigned char *str)
+ 146          {
+ 147   1          while(*str)
+ 148   1          {
+ 149   2              lcd_data(*str++);
+ 150   2          }
+ 151   1      }
+ 152          
+ 153          // Display decimal number
+ 154          void lcd_number(unsigned int num)
+ 155          {
+ 156   1          lcd_data((num / 100) + '0');
+ 157   1          lcd_data(((num / 10) % 10) + '0');
+ 158   1          lcd_data((num % 10) + '0');
+ 159   1      }
+ 160          
+ 161          // Delay
+ 162          void delay(unsigned int t)
+ 163          {
+ 164   1          unsigned int i;
+ 165   1      
+ 166   1          for(i = 0; i < t; i++);
+ 167   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    351    ----
+   CONSTANT SIZE    =     55    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+C51 COMPILER V9.60.7.0   TEMPRATURE_DISPLAYY                                               11/23/2026 20:56:25 PAGE 4   
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
