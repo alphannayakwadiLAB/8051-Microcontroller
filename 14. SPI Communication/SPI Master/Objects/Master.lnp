@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\Master.obj" 
+TO ".\Objects\Master" 
+PRINT(".\Listings\Master.m51") CODE( 0X0000-0X0FFF )
