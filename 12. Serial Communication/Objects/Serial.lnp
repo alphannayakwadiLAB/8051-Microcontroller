@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\serial.obj" 
+TO ".\Objects\Serial" 
+PRINT(".\Listings\Serial.m51") CODE( 0X0000-0X0FFF )

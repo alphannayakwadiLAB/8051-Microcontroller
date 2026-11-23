@@ -1,0 +1,42 @@
+C51 COMPILER V9.60.7.0   SERIAL                                                            11/23/2026 18:37:18 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE SERIAL
+OBJECT MODULE PLACED IN .\Objects\serial.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE serial.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\se
+                    -rial.lst) TABS(2) OBJECT(.\Objects\serial.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          void main()
+   4          {
+   5   1          SCON = 0x50;      // UART Mode 1, 8-bit UART
+   6   1          TMOD = 0x20;      // Timer 1, Mode 2 (Auto Reload)
+   7   1          TH1 = 0xFD;        // 9600 baud for 11.0592 MHz crystal
+   8   1          TL1 = 0xFD;
+   9   1          TR1 = 1;           // Start Timer 1
+  10   1      
+  11   1          while(1)
+  12   1          {
+  13   2              SBUF = 'A';    // Transmit character A
+  14   2      
+  15   2              while(TI == 0); // Wait until transmission completes
+  16   2              TI = 0;         // Clear transmit flag
+  17   2          }
+  18   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     24    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
